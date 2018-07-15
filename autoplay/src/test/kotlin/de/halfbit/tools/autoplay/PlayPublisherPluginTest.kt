@@ -1,32 +1,46 @@
 package de.halfbit.tools.autoplay
 
 import com.google.common.truth.Truth.assertThat
-import de.halfbit.tools.autoplay.PlayPublisherPlugin
-import de.halfbit.tools.autoplay.PublishApkTask
 import de.halfbit.tools.autoplay.publisher.ReleaseStatus
 import de.halfbit.tools.autoplay.publisher.ReleaseTrack
+import org.gradle.api.Project
+import org.gradle.api.ProjectConfigurationException
 import org.gradle.kotlin.dsl.withGroovyBuilder
 import org.gradle.testfixtures.ProjectBuilder
+import org.hamcrest.core.IsEqual.equalTo
+import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.internal.matchers.ThrowableMessageMatcher.hasMessage
+import org.junit.rules.ExpectedException
 import java.io.File
 
-class PlayPublisherPluginTest {
+internal class PlayPublisherPluginTest {
 
-    @Test
-    fun `Test PublishApkTask with proper configuration`() {
+    @Rule
+    @JvmField
+    var thrown: ExpectedException = ExpectedException.none()
 
-        val project = ProjectBuilder.builder()
+    private lateinit var project: Project
+
+    @Before
+    fun before() {
+        project = ProjectBuilder.builder()
             .withName("sample-application")
             .withProjectDir(File("src/test/resources/sample-application/app"))
             .build()
 
         project.pluginManager.apply("com.android.application")
         project.pluginManager.apply(PlayPublisherPlugin::class.java)
+    }
+
+    @Test
+    fun `PlayPublisherPlugin, valid configuration`() {
 
         project.withGroovyBuilder {
 
             "android" {
-                "compileSdkVersion"(28)
+                "compileSdkVersion"(27)
             }
 
             "autoplay" {
@@ -35,6 +49,8 @@ class PlayPublisherPluginTest {
                 "userFraction"(0.5)
                 "secretJsonBase64"("c2VjcmV0")
             }
+
+            "evaluate"()
         }
 
         val tasks = project.getTasksByName("publishApkRelease", false)
@@ -67,6 +83,22 @@ class PlayPublisherPluginTest {
         assertThat(publishApkRelease.releaseTrack).isEqualTo(ReleaseTrack.Internal)
         assertThat(publishApkRelease.releaseStatus).isEqualTo(ReleaseStatus.InProgress)
 
+    }
+
+    @Test
+    fun `PublishApkTask, missing 'track'`() {
+
+        thrown.expect(ProjectConfigurationException::class.java)
+        thrown.expectCause(hasMessage(equalTo("autoplay { track } property is required.")))
+
+        project.withGroovyBuilder {
+            "android" {
+                "compileSdkVersion"(27)
+            }
+            "autoplay" {
+            }
+            "evaluate"()
+        }
     }
 
 }

@@ -46,8 +46,8 @@ publishing {
             name = "central"
             url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
             credentials {
-                username = project.property("NEXUS_USERNAME") as String? ?: ""
-                password = project.property("NEXUS_PASSWORD") as String? ?: ""
+                username = project.getPropertyOrEmptyString("NEXUS_USERNAME")
+                password = project.getPropertyOrEmptyString("NEXUS_PASSWORD")
             }
         }
     }
@@ -102,4 +102,25 @@ publishing {
 
 signing {
     sign(publishing.publications["Autoplay"])
+}
+
+fun Project.getPropertyOrEmptyString(name: String): String {
+    return if (hasProperty(name)) {
+        property(name) as String? ?: ""
+    } else {
+        ""
+    }
+}
+
+tasks.withType<Test> {
+    addTestListener(object : TestListener {
+        override fun beforeSuite(suite: TestDescriptor) {}
+        override fun beforeTest(testDescriptor: TestDescriptor) {}
+        override fun afterSuite(suite: TestDescriptor, result: TestResult) {}
+        override fun afterTest(testDescriptor: TestDescriptor, result: TestResult) {
+            if (result.resultType == TestResult.ResultType.FAILURE) {
+                result.exception?.printStackTrace()
+            }
+        }
+    })
 }
