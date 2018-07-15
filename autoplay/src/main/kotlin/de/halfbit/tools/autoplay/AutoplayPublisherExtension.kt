@@ -2,7 +2,7 @@ package de.halfbit.tools.autoplay
 
 import de.halfbit.tools.autoplay.publisher.ReleaseStatus
 
-internal const val RELEASE_NOTES_PATH = "src/main/play/release-notes"
+internal const val RELEASE_NOTES_PATH = "src/main/autoplay/release-notes"
 
 internal open class AutoplayPublisherExtension {
     var track: String? = null
