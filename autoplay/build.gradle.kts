@@ -27,13 +27,13 @@ gradlePlugin {
     (plugins) {
         "android-autoplay" {
             id = "android-autoplay"
-            implementationClass = "de.halfbit.tools.play.PlayPublisherPlugin"
+            implementationClass = "de.halfbit.tools.autoplay.PlayPublisherPlugin"
         }
     }
 }
 
 group = "de.halfbit"
-version = "0.2.0"
+version = "0.2.1"
 
 publishing {
 
@@ -68,7 +68,7 @@ publishing {
     }
 
     (publications) {
-        "Plugin"(MavenPublication::class) {
+        "Autoplay"(MavenPublication::class) {
             from(components["java"])
             artifact(sourcesJar)
             artifact(javadocJar)
@@ -90,9 +90,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection.set("scm:git:git://example.com/my-library.git")
-                    developerConnection.set("scm:git:ssh://example.com/my-library.git")
-                    url.set("http://example.com/my-library/")
+                    connection.set("scm:git:git@github.com:beworker/autoplay.git")
+                    developerConnection.set("scm:git:ssh://github.com:beworker/autoplay.git")
+                    url.set("http://www.halfbit.de")
                 }
             }
         }
@@ -101,5 +101,5 @@ publishing {
 }
 
 signing {
-    sign(publishing.publications["Plugin"])
+    sign(publishing.publications["Autoplay"])
 }
