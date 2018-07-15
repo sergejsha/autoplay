@@ -13,7 +13,7 @@ Gradle plugin for publishing Android artifacts to Google Play.
   - it has just a single publish task for uploading akp, mapping file and release notes.
   
 - Autoplay is reliable and future-proof:
-  - it has very clean and concise implementation, which makes it easy to mantainable and to extensible.
+  - it has very a clean and concise implementation, which makes it easily mantainable and extensible.
   - it is built using latest technologies and tools like Kotlin, Kotlin-DSL for Gradle, Android Gradle plugin etc.
   
 # Usage
