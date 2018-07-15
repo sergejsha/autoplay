@@ -33,7 +33,7 @@ buildscript {
   }
   
   dependencies {
-    classpath "de.halfbit:android-autoplay:<version>"
+    classpath "de.halfbit:autoplay:<version>"
   }
 }
 ```
