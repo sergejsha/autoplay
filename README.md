@@ -51,7 +51,6 @@ Call `./gradlew tasks` and you will see a new publishing task `publishApk<BuildV
 Now you can call this task from a central build script. Here is an example of how to use it with Gitlab CI.
 
 ```yml
-
 stages:
   - build
   - release
@@ -74,7 +73,6 @@ release:
     - master
   script:
     - ./gradlew publishApkRelease -PSECRET_JSON=${SECRET_JSON}
-
 ```
 
 # Listings
