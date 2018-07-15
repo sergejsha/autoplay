@@ -78,6 +78,14 @@ release:
     - ./gradlew publishApkRelease -PSECRET_JSON=${SECRET_JSON}
 ```
 
+You can encode JSON key file into base64 string using following shell command (linux, mac)
+
+```shell
+base64 -i secret.json -o -
+```
+
+and provide the value to the build script using a [protected variable](https://docs.gitlab.com/ee/ci/variables/#variables).
+
 # Listings
 
 Autoplay takes apk- and mapping-files from the respective build output directories. The other listing files to upload (like release notes) should be provided additionally. Autoplay expects listing files to be stored under `src/main/autoplay` in accoradance to the structure shown below.
