@@ -56,11 +56,11 @@ Now you can call this task from a central build script. Here is an example of ho
 
 ```yml
 stages:
-  - build
+  - assemble
   - release
 
 assemble:
-  stage: build
+  stage: assemble
   only:
     - master
   script:
