@@ -25,8 +25,8 @@ dependencies {
 gradlePlugin {
     isAutomatedPublishing = false
     (plugins) {
-        "android-play-publisher" {
-            id = "android-play-publisher"
+        "android-autoplay" {
+            id = "android-autoplay"
             implementationClass = "de.halfbit.tools.play.PlayPublisherPlugin"
         }
     }

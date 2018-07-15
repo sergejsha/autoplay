@@ -1,4 +1,4 @@
-package de.halfbit.tools.play.publisher
+package de.halfbit.tools.autoplay.publisher
 
 import java.io.File
 import java.io.Serializable

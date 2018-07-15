@@ -1,9 +1,9 @@
-package de.halfbit.tools.play
+package de.halfbit.tools.autoplay
 
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.api.ApkVariantOutput
 import com.android.build.gradle.api.ApplicationVariant
-import de.halfbit.tools.play.publisher.*
+import de.halfbit.tools.autoplay.publisher.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.createTask
@@ -11,15 +11,15 @@ import java.io.File
 import java.util.*
 
 internal const val TASK_GROUP = "Publishing"
-internal const val PLUGIN_ID = "android-play-publisher"
-internal const val EXTENSION_NAME = "publisher"
+internal const val PLUGIN_ID = "android-autoplay"
+internal const val EXTENSION_NAME = "autoplay"
 
 internal class PlayPublisherPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
 
         val extension = project.extensions
-            .create(EXTENSION_NAME, PlayPublisherExtension::class.java)
+            .create(EXTENSION_NAME, AutoplayPublisherExtension::class.java)
 
         val androidAppExtension = project.requireAndroidAppExtension()
         androidAppExtension.applicationVariants.whenObjectAdded {
@@ -60,9 +60,9 @@ internal class PlayPublisherPlugin : Plugin<Project> {
             return mapping
         }
 
-        fun PlayPublisherExtension.getReleaseTrack(): ReleaseTrack {
+        fun AutoplayPublisherExtension.getReleaseTrack(): ReleaseTrack {
             return when (track) {
-                null -> error("publisher { track } property is required.")
+                null -> error("autoplay { track } property is required.")
                 ReleaseTrack.Internal.name -> ReleaseTrack.Internal
                 ReleaseTrack.Alpha.name -> ReleaseTrack.Alpha
                 ReleaseTrack.Beta.name -> ReleaseTrack.Beta
@@ -72,9 +72,9 @@ internal class PlayPublisherPlugin : Plugin<Project> {
             }
         }
 
-        fun PlayPublisherExtension.getReleaseStatus(): ReleaseStatus {
+        fun AutoplayPublisherExtension.getReleaseStatus(): ReleaseStatus {
             return when (status) {
-                null -> error("publisher { status } property is required.")
+                null -> error("autoplay { status } property is required.")
                 ReleaseStatus.Completed.name -> ReleaseStatus.Completed
                 ReleaseStatus.Draft.name -> ReleaseStatus.Draft
                 ReleaseStatus.Halted.name -> ReleaseStatus.Halted
@@ -83,8 +83,8 @@ internal class PlayPublisherPlugin : Plugin<Project> {
             }
         }
 
-        fun PlayPublisherExtension.getReleaseNotes(rootDir: File): List<ReleaseNotes> {
-            val releaseNotePath = this.releaseNotesPath ?: error("publisher { releaseNotesPath } is required.")
+        fun AutoplayPublisherExtension.getReleaseNotes(rootDir: File): List<ReleaseNotes> {
+            val releaseNotePath = this.releaseNotesPath ?: error("autoplay { releaseNotesPath } is required.")
             val root = File(rootDir, releaseNotePath)
             return if (root.exists()) {
                 root.listFiles()
@@ -104,7 +104,7 @@ internal class PlayPublisherPlugin : Plugin<Project> {
             }
         }
 
-        fun PlayPublisherExtension.getCredentials(): Credentials {
+        fun AutoplayPublisherExtension.getCredentials(): Credentials {
             val secretJson = Base64.getDecoder().decode(secretJsonBase64).toString(Charsets.UTF_8)
             return Credentials(secretJson, secretJsonPath)
         }

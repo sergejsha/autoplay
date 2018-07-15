@@ -1,7 +1,7 @@
-package de.halfbit.tools.play
+package de.halfbit.tools.autoplay
 
-import de.halfbit.tools.play.publisher.*
-import de.halfbit.tools.play.publisher.v3.V3GooglePlayPublisher
+import de.halfbit.tools.autoplay.publisher.*
+import de.halfbit.tools.autoplay.publisher.v3.V3GooglePlayPublisher
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.*
 import org.gradle.api.tasks.incremental.IncrementalTaskInputs
@@ -55,7 +55,7 @@ internal open class PublishApkTask : DefaultTask() {
 
         fun Credentials.validate() {
             if (!secretJson.isNullOrEmpty() && !secretJsonPath.isNullOrEmpty()) {
-                error("Either publisher { secretJsonBase46 } or publisher { secretJsonPath } must be specified, never both.")
+                error("Either autoplay { secretJsonBase46 } or autoplay { secretJsonPath } must be specified, never both.")
             }
         }
 

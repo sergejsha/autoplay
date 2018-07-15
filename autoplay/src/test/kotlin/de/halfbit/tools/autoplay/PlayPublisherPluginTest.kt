@@ -1,8 +1,10 @@
-package de.halfbit.tools.play
+package de.halfbit.tools.autoplay
 
 import com.google.common.truth.Truth.assertThat
-import de.halfbit.tools.play.publisher.ReleaseStatus
-import de.halfbit.tools.play.publisher.ReleaseTrack
+import de.halfbit.tools.autoplay.PlayPublisherPlugin
+import de.halfbit.tools.autoplay.PublishApkTask
+import de.halfbit.tools.autoplay.publisher.ReleaseStatus
+import de.halfbit.tools.autoplay.publisher.ReleaseTrack
 import org.gradle.kotlin.dsl.withGroovyBuilder
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Test
@@ -14,7 +16,7 @@ class PlayPublisherPluginTest {
     fun `Test PublishApkTask with proper configuration`() {
 
         val project = ProjectBuilder.builder()
-            .withName("sample")
+            .withName("sample-application")
             .withProjectDir(File("src/test/resources/sample-application/app"))
             .build()
 
@@ -27,7 +29,7 @@ class PlayPublisherPluginTest {
                 "compileSdkVersion"(28)
             }
 
-            "publisher" {
+            "autoplay" {
                 "track"("internal")
                 "userFraction"(0.5)
                 "secretJsonBase64"("c2VjcmV0")
@@ -46,7 +48,7 @@ class PlayPublisherPluginTest {
 
         val artifact = publishApkRelease.artifactFiles.first()
         assertThat(artifact).isNotNull()
-        assertThat(artifact.path).endsWith("sample-release-unsigned.apk")
+        assertThat(artifact.path).endsWith("sample-application-release-unsigned.apk")
 
         assertThat(publishApkRelease.releaseNotes).hasSize(1)
 
@@ -60,7 +62,7 @@ class PlayPublisherPluginTest {
         assertThat(publishApkRelease.credentials.secretJsonPath).isNull()
 
         assertThat(publishApkRelease.obfuscationMappingFile).isNull()
-        assertThat(publishApkRelease.applicationId).isEqualTo("de.halfbit.play.simple.test")
+        assertThat(publishApkRelease.applicationId).isEqualTo("de.halfbit.tools.autoplay.sample")
         assertThat(publishApkRelease.releaseTrack).isEqualTo(ReleaseTrack.Internal)
         assertThat(publishApkRelease.releaseStatus).isEqualTo(ReleaseStatus.Completed)
 

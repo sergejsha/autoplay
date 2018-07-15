@@ -1,4 +1,4 @@
-package de.halfbit.tools.play.publisher.v3
+package de.halfbit.tools.autoplay.publisher.v3
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
@@ -9,10 +9,10 @@ import com.google.api.services.androidpublisher.AndroidPublisherScopes
 import com.google.api.services.androidpublisher.model.LocalizedText
 import com.google.api.services.androidpublisher.model.Track
 import com.google.api.services.androidpublisher.model.TrackRelease
-import de.halfbit.tools.play.publisher.Credentials
-import de.halfbit.tools.play.publisher.GooglePlayPublisher
-import de.halfbit.tools.play.publisher.ReleaseData
-import de.halfbit.tools.play.publisher.ReleaseTrack
+import de.halfbit.tools.autoplay.publisher.Credentials
+import de.halfbit.tools.autoplay.publisher.GooglePlayPublisher
+import de.halfbit.tools.autoplay.publisher.ReleaseData
+import de.halfbit.tools.autoplay.publisher.ReleaseTrack
 import java.io.File
 
 internal const val MIME_TYPE_APK = "application/vnd.android.package-archive"
@@ -129,12 +129,12 @@ internal class V3GooglePlayPublisher(
         private fun Credentials.getSecretJson(): String {
             if (secretJson != null) {
                 if (secretJson.isEmpty()) {
-                    error("publisher { secretJsonBase64 } must not be empty.")
+                    error("autoplay { secretJsonBase64 } must not be empty.")
                 }
                 return secretJson
             }
             if (secretJsonPath == null) {
-                error("Either publisher { secretJsonBase64 } or publisher { secretJsonPath } must be specified.")
+                error("Either autoplay { secretJsonBase64 } or autoplay { secretJsonPath } must be specified.")
             }
             val file = File(secretJsonPath)
             if (!file.exists()) {

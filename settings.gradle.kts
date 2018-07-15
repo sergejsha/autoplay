@@ -1,1 +1,1 @@
-include(":android-play-publisher")
+include(":autoplay")

@@ -1,10 +1,10 @@
-package de.halfbit.tools.play
+package de.halfbit.tools.autoplay
 
-import de.halfbit.tools.play.publisher.ReleaseStatus
+import de.halfbit.tools.autoplay.publisher.ReleaseStatus
 
 internal const val RELEASE_NOTES_PATH = "src/main/play/release-notes"
 
-internal open class PlayPublisherExtension {
+internal open class AutoplayPublisherExtension {
     var track: String? = null
     var userFraction: Double? = null
     var status: String? = ReleaseStatus.Completed.name
