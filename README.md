@@ -23,7 +23,6 @@ In the main `build.gradle`
 
 ```gradle
 buildscript {
-
   repositories {
     google()
     jcenter()  
