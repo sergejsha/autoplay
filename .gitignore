@@ -1,0 +1,13 @@
+build/
+captures/
+out/
+userHome/
+
+.idea/
+.gradle/
+.navigation/
+
+*.iml
+.DS_Store
+
+local.properties
