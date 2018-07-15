@@ -31,7 +31,6 @@ buildscript {
     google()
     jcenter()  
   }
-  
   dependencies {
     classpath "de.halfbit:autoplay:<version>"
   }
@@ -93,7 +92,7 @@ src
                      +- <track>.txt   e.g. internal.txt
 ```
 
-Happy continuous integration!
+Releases of Magnet are published to mavenCentral() repository. Checkout [releases](https://github.com/beworker/autoplay/releases) section to find the last release version. Happy continuous integration!
 
 # License
 ```
