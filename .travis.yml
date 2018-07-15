@@ -14,4 +14,4 @@ cache:
     - $HOME/.gradle/wrapper/
 
 script:
-  - ./gradlew clean build
+  - ./gradlew clean build --stacktrace
