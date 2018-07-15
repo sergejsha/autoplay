@@ -116,12 +116,11 @@ tasks.withType<Test> {
     addTestListener(object : TestListener {
         override fun beforeSuite(suite: TestDescriptor) {}
         override fun beforeTest(testDescriptor: TestDescriptor) {}
+        override fun afterSuite(suite: TestDescriptor, result: TestResult) {}
         override fun afterTest(testDescriptor: TestDescriptor, result: TestResult) {
             if (result.resultType == TestResult.ResultType.FAILURE) {
                 result.exception?.printStackTrace()
             }
         }
-
-        override fun afterSuite(suite: TestDescriptor, result: TestResult) {}
     })
 }

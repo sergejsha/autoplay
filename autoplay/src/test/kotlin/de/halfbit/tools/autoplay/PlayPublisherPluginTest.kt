@@ -40,7 +40,7 @@ internal class PlayPublisherPluginTest {
         project.withGroovyBuilder {
 
             "android" {
-                "compileSdkVersion"(28)
+                "compileSdkVersion"(27)
             }
 
             "autoplay" {
@@ -93,7 +93,7 @@ internal class PlayPublisherPluginTest {
 
         project.withGroovyBuilder {
             "android" {
-                "compileSdkVersion"(28)
+                "compileSdkVersion"(27)
             }
             "autoplay" {
             }
