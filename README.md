@@ -16,12 +16,12 @@ Gradle plugin for publishing Android artifacts to Google Play.
   - it has very a clean and concise implementation, which is easy to understant.
   - it's covered by unit tests and easy to maintain and extend.
   - it's built using latest technologies and tools like Kotlin, Kotlin-DSL for Gradle, Android Gradle plugin etc.
-  
+ 
 # Usage
 
 In the main `build.gradle`
 
-```kotlin
+```gradle
 buildscript {
 
   repositories {
@@ -37,7 +37,7 @@ buildscript {
 
 In the application module's `build.gradle`
 
-```kotlin
+```gradle
 apply plugin: 'com.android.application'
 apply plugin: 'android-autoplay'
 
@@ -78,6 +78,20 @@ release:
     - ./gradlew publishApkRelease -PSECRET_JSON=${SECRET_JSON}
     
 
+```
+
+# Metadata
+
+Autoplay takes apk- and mapping-files from the respective build output directories. The other listing files to upload (like release notes) should be provided additionally. Autoplay expects listing files to be stored under `src/main/autoplay` in accoradance to the structure shown below.
+
+```
+src
+  +- main
+       +- java
+       +- autoplay
+            +- release-notes
+                 +- <locale>          e.g. en-US
+                     +- <track>.txt   e.g. internal.txt
 ```
 
 Happy coding and enjoy!
