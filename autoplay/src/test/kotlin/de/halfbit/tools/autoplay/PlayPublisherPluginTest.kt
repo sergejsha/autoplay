@@ -31,6 +31,7 @@ class PlayPublisherPluginTest {
 
             "autoplay" {
                 "track"("internal")
+                "status"("inProgress")
                 "userFraction"(0.5)
                 "secretJsonBase64"("c2VjcmV0")
             }
@@ -64,7 +65,7 @@ class PlayPublisherPluginTest {
         assertThat(publishApkRelease.obfuscationMappingFile).isNull()
         assertThat(publishApkRelease.applicationId).isEqualTo("de.halfbit.tools.autoplay.sample")
         assertThat(publishApkRelease.releaseTrack).isEqualTo(ReleaseTrack.Internal)
-        assertThat(publishApkRelease.releaseStatus).isEqualTo(ReleaseStatus.Completed)
+        assertThat(publishApkRelease.releaseStatus).isEqualTo(ReleaseStatus.InProgress)
 
     }
 

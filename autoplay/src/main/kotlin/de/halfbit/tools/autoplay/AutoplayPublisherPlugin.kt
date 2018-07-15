@@ -3,6 +3,7 @@ package de.halfbit.tools.autoplay
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.api.ApkVariantOutput
 import com.android.build.gradle.api.ApplicationVariant
+import com.android.builder.model.Version
 import de.halfbit.tools.autoplay.publisher.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -45,6 +46,8 @@ internal class PlayPublisherPlugin : Plugin<Project> {
     }
 
     companion object {
+
+        private const val MINIMAL_ANDROID_PLUGIN_VERSION = "3.0.1"
 
         fun ApplicationVariant.getArtifactFiles(): List<File> {
             return this.outputs
@@ -110,8 +113,14 @@ internal class PlayPublisherPlugin : Plugin<Project> {
         }
 
         fun Project.requireAndroidAppExtension(): AppExtension {
+            val current = Version.ANDROID_GRADLE_PLUGIN_VERSION
+            val expected = MINIMAL_ANDROID_PLUGIN_VERSION
+            if (current < expected) {
+                error("Plugin '$PLUGIN_ID' requires 'com.android.application' plugin version $expected or higher," +
+                    " while yours is $current. Update android gradle plugin and try again.")
+            }
             return project.extensions.findByType(AppExtension::class.java)
-                ?: error("Plugin 'com.android.application' must be added prior $PLUGIN_ID plugin.")
+                ?: error("Required 'com.android.application' plugin must be added prior '$PLUGIN_ID' plugin.")
         }
 
     }
