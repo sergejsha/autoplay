@@ -79,7 +79,7 @@ release:
 
 ```
 
-# Metadata
+# Listings
 
 Autoplay takes apk- and mapping-files from the respective build output directories. The other listing files to upload (like release notes) should be provided additionally. Autoplay expects listing files to be stored under `src/main/autoplay` in accoradance to the structure shown below.
 
