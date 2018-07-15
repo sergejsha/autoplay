@@ -92,7 +92,7 @@ src
                      +- <track>.txt   e.g. internal.txt
 ```
 
-Releases of Magnet are published to mavenCentral() repository. Checkout [releases](https://github.com/beworker/autoplay/releases) section to find the last release version. Happy continuous integration!
+Releases of Autoplay are published to `mavenCentral()` repository. Checkout [releases](https://github.com/beworker/autoplay/releases) section to find the last release version. Happy continuous integration!
 
 # License
 ```
