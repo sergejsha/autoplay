@@ -88,7 +88,7 @@ and provide the value to the build script using a [protected variable](https://d
 
 # Listings
 
-Autoplay takes apk- and mapping-files from the respective build output directories. The other listing files to upload (like release notes) should be provided additionally. Autoplay expects listing files to be stored under `src/main/autoplay` in accoradance to the structure shown below.
+Autoplay takes apk- and mapping-files from the respective build output directories. Listing files for uploading (like release notes) should be provided additionally. Autoplay expects listing files to be stored under `src/main/autoplay` in accordance to the structure shown below.
 
 ```
 src
@@ -96,8 +96,8 @@ src
        +- java
        +- autoplay
             +- release-notes
-                 +- <locale>          e.g. en-US
-                     +- <track>.txt   e.g. internal.txt
+                 +- <track>                       e.g. internal
+                     +- <language>-<COUNTRY>.txt  e.g. en-US.txt
 ```
 
 Releases of Autoplay are published to `mavenCentral()` repository. Checkout [releases](https://github.com/beworker/autoplay/releases) section to find the last release version. Happy continuous integration!
