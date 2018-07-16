@@ -39,7 +39,7 @@ buildscript {
 }
 ```
 
-Releases of Autoplay are published to `mavenCentral()` repository. Checkout [releases](https://github.com/beworker/autoplay/releases) section to find the last release version.
+Releases of Autoplay are published to `mavenCentral()` repository. Checkout [releases](https://github.com/beworker/autoplay/releases) section to find lastest release version.
 
 In the application module's `build.gradle`
 
