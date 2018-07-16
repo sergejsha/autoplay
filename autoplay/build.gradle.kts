@@ -33,7 +33,7 @@ gradlePlugin {
 }
 
 group = "de.halfbit"
-version = "0.2.3"
+version = "0.3.0"
 
 publishing {
 

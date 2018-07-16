@@ -49,13 +49,13 @@ internal class PlayPublisherPlugin : Plugin<Project> {
 
         private const val MINIMAL_ANDROID_PLUGIN_VERSION = "3.0.1"
 
-        fun ApplicationVariant.getArtifactFiles(): List<File> {
+        private fun ApplicationVariant.getArtifactFiles(): List<File> {
             return this.outputs
                 .filterIsInstance<ApkVariantOutput>()
                 .map { it.outputFile }
         }
 
-        fun ApplicationVariant.getObfuscationMappingFile(): File? {
+        private fun ApplicationVariant.getObfuscationMappingFile(): File? {
             val mapping = mappingFile
             if (mapping == null || mapping.length() == 0L) {
                 return null
@@ -63,9 +63,9 @@ internal class PlayPublisherPlugin : Plugin<Project> {
             return mapping
         }
 
-        fun AutoplayPublisherExtension.getReleaseTrack(): ReleaseTrack {
+        private fun AutoplayPublisherExtension.getReleaseTrack(): ReleaseTrack {
             return when (track) {
-                null -> error("autoplay { track } property is required.")
+                null -> error("$EXTENSION_NAME { track } property is required.")
                 ReleaseTrack.Internal.name -> ReleaseTrack.Internal
                 ReleaseTrack.Alpha.name -> ReleaseTrack.Alpha
                 ReleaseTrack.Beta.name -> ReleaseTrack.Beta
@@ -75,9 +75,9 @@ internal class PlayPublisherPlugin : Plugin<Project> {
             }
         }
 
-        fun AutoplayPublisherExtension.getReleaseStatus(): ReleaseStatus {
+        private fun AutoplayPublisherExtension.getReleaseStatus(): ReleaseStatus {
             return when (status) {
-                null -> error("autoplay { status } property is required.")
+                null -> error("$EXTENSION_NAME { status } property is required.")
                 ReleaseStatus.Completed.name -> ReleaseStatus.Completed
                 ReleaseStatus.Draft.name -> ReleaseStatus.Draft
                 ReleaseStatus.Halted.name -> ReleaseStatus.Halted
@@ -86,19 +86,18 @@ internal class PlayPublisherPlugin : Plugin<Project> {
             }
         }
 
-        fun AutoplayPublisherExtension.getReleaseNotes(rootDir: File): List<ReleaseNotes> {
-            val releaseNotePath = this.releaseNotesPath ?: error("autoplay { releaseNotesPath } is required.")
-            val root = File(rootDir, releaseNotePath)
-            return if (root.exists()) {
-                root.listFiles()
-                    .filter { it.isDirectory }
-                    .mapNotNull { localizedDirectory ->
-                        val file = File(localizedDirectory, "$track.txt")
-                        if (file.exists()) file else null
+        private fun AutoplayPublisherExtension.getReleaseNotes(rootDir: File): List<ReleaseNotes> {
+            val releaseNotePath = this.releaseNotesPath ?: error("$EXTENSION_NAME { releaseNotesPath } is required.")
+            val trackDirectory = File(rootDir, "$releaseNotePath/$track")
+            return if (trackDirectory.exists()) {
+                trackDirectory.listFiles()
+                    .filter { it.isFile }
+                    .mapNotNull { localizedFile ->
+                        if (localizedFile.exists()) localizedFile else null
                     }
                     .map { releaseNoteFile ->
                         ReleaseNotes(
-                            releaseNoteFile.parentFile.name,
+                            releaseNoteFile.getLocale(),
                             releaseNoteFile
                         )
                     }
@@ -107,7 +106,7 @@ internal class PlayPublisherPlugin : Plugin<Project> {
             }
         }
 
-        fun AutoplayPublisherExtension.getCredentials(): Credentials {
+        private fun AutoplayPublisherExtension.getCredentials(): Credentials {
             val secretJson = if (secretJsonBase64 != null) {
                 Base64.getDecoder().decode(secretJsonBase64).toString(Charsets.UTF_8)
             } else {
@@ -116,7 +115,7 @@ internal class PlayPublisherPlugin : Plugin<Project> {
             return Credentials(secretJson, secretJsonPath)
         }
 
-        fun Project.requireAndroidAppExtension(): AppExtension {
+        private fun Project.requireAndroidAppExtension(): AppExtension {
             val current = Version.ANDROID_GRADLE_PLUGIN_VERSION
             val expected = MINIMAL_ANDROID_PLUGIN_VERSION
             if (current < expected) {
@@ -125,6 +124,14 @@ internal class PlayPublisherPlugin : Plugin<Project> {
             }
             return project.extensions.findByType(AppExtension::class.java)
                 ?: error("Required 'com.android.application' plugin must be added prior '$PLUGIN_ID' plugin.")
+        }
+
+        private fun File.getLocale(): String {
+            if (name.length < 5 || name.substring(2, 3) != "_") {
+                error("Release notes file name must have the following format:" +
+                    " <language>_<country>.txt, e.g. en_US.txt. Found name: $this")
+            }
+            return name.substring(0, 5)
         }
 
     }

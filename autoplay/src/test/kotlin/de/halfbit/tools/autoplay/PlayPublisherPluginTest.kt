@@ -66,13 +66,14 @@ internal class PlayPublisherPluginTest {
         val artifact = publishApkRelease.artifactFiles.first()
         assertThat(artifact).isNotNull()
         assertThat(artifact.path).endsWith("sample-application-release-unsigned.apk")
+        assertThat(File(artifact.path).exists()).isTrue()
 
         assertThat(publishApkRelease.releaseNotes).hasSize(1)
 
         val releaseNotes = publishApkRelease.releaseNotes.first()
         assertThat(releaseNotes).isNotNull()
         assertThat(releaseNotes.locale).isEqualTo("en_US")
-        assertThat(releaseNotes.file.path).endsWith("release-notes/en_US/internal.txt")
+        assertThat(releaseNotes.file.path).endsWith("release-notes/internal/en_US.txt")
 
         assertThat(publishApkRelease.credentials).isNotNull()
         assertThat(publishApkRelease.credentials.secretJson).isEqualTo("secret")
