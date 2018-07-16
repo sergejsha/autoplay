@@ -88,9 +88,9 @@ base64 -i secret.json -o -
 
 and provide the value to the build script using a [protected variable](https://docs.gitlab.com/ee/ci/variables/#variables).
 
-# Listings
+# Release Notes
 
-Autoplay takes apk- and mapping-files from the respective build output directories. Listing files for uploading (like release notes) should be provided additionally. Autoplay expects listing files to be stored under `src/main/autoplay` in accordance to the structure shown below.
+Autoplay takes apk- and mapping-files for uploading from the respective build output directories. Release notes assigned to a release should be provided additionally. Autoplay expects release notes to be stored under `src/main/autoplay/release-notes` directory in accordance with the structure shown down below.
 
 ```
 src
