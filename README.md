@@ -37,6 +37,8 @@ buildscript {
 }
 ```
 
+Releases of Autoplay are published to `mavenCentral()` repository. Checkout [releases](https://github.com/beworker/autoplay/releases) section to find the last release version.
+
 In the application module's `build.gradle`
 
 ```gradle
@@ -100,7 +102,7 @@ src
                      +- <locale>.txt  e.g. en-US.txt
 ```
 
-Releases of Autoplay are published to `mavenCentral()` repository. Checkout [releases](https://github.com/beworker/autoplay/releases) section to find the last release version. Happy continuous integration!
+Happy continuous integration!
 
 # License
 ```
