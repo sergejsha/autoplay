@@ -29,14 +29,14 @@ internal class V3GooglePlayPublisher(
         data.validate()
 
         val edits = androidPublisher.edits()
-        val edit = edits.insert(data.applicationId, null).execute()
+        val appEdit = edits.insert(data.applicationId, null).execute()
 
         val apkVersionCodes = data.artifacts.map {
 
             val apkVersionCode = edits.apks()
                 .upload(
                     data.applicationId,
-                    edit.id,
+                    appEdit.id,
                     FileContent(MIME_TYPE_APK, it)
                 )
                 .execute()
@@ -46,7 +46,7 @@ internal class V3GooglePlayPublisher(
                 edits.deobfuscationfiles()
                     .upload(
                         data.applicationId,
-                        edit.id,
+                        appEdit.id,
                         apkVersionCode,
                         TYPE_PROGUARD,
                         FileContent(MIME_TYPE_STREAM, it)
@@ -60,13 +60,13 @@ internal class V3GooglePlayPublisher(
         edits.tracks()
             .update(
                 data.applicationId,
-                edit.id,
+                appEdit.id,
                 data.releaseTrack.name,
                 data.createTrackUpdate(apkVersionCodes)
             )
             .execute()
 
-        edits.commit(data.applicationId, edit.id).execute()
+        edits.commit(data.applicationId, appEdit.id).execute()
 
     }
 

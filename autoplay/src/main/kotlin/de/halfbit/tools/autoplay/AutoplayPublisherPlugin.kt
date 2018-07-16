@@ -38,7 +38,7 @@ internal class PlayPublisherPlugin : Plugin<Project> {
                 obfuscationMappingFile = getObfuscationMappingFile()
                 releaseTrack = extension.getReleaseTrack()
                 releaseStatus = extension.getReleaseStatus()
-                releaseNotes = extension.getReleaseNotes(project.rootDir)
+                releaseNotes = extension.getReleaseNotes(project.projectDir)
                 credentials = extension.getCredentials()
             }
         }
