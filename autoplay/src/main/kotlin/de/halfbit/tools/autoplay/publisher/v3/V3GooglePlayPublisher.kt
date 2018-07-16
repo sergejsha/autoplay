@@ -57,17 +57,14 @@ internal class V3GooglePlayPublisher(
             apkVersionCode.toLong()
         }
 
-        val trackUpdate = Track().apply {
-            track = data.releaseTrack.name
-            releases = listOf(data.createTrackRelease(apkVersionCodes))
-        }
+
 
         edits.tracks()
             .update(
                 data.applicationId,
                 edit.id,
                 data.releaseTrack.name,
-                trackUpdate
+                data.createTrackUpdate(apkVersionCodes)
             )
             .execute()
 
@@ -92,23 +89,23 @@ internal class V3GooglePlayPublisher(
                 .build()
         }
 
-        private fun ReleaseData.createTrackRelease(apkVersionCodes: List<Long>): TrackRelease {
-            return TrackRelease().apply {
-                releaseNotes = getLocalizedReleaseNotes()
-                versionCodes = apkVersionCodes
-                status = releaseStatus.name
-                if (releaseTrack is ReleaseTrack.Rollout) {
-                    userFraction = releaseTrack.userFraction
-                }
-            }
-        }
-
-        private fun ReleaseData.getLocalizedReleaseNotes(): List<LocalizedText> {
-            return releaseNotes.map {
-                LocalizedText().apply {
-                    language = it.locale
-                    text = it.file.readText().replace("\n\r", "\n").trim()
-                }
+        private fun ReleaseData.createTrackUpdate(apkVersionCodes: List<Long>): Track {
+            return Track().apply {
+                releases = listOf(
+                    TrackRelease().apply {
+                        versionCodes = apkVersionCodes
+                        status = releaseStatus.name
+                        if (releaseTrack is ReleaseTrack.Rollout) {
+                            userFraction = releaseTrack.userFraction
+                        }
+                        releaseNotes = this@createTrackUpdate.releaseNotes.map { releaseNotes ->
+                            LocalizedText().apply {
+                                language = releaseNotes.locale
+                                text = releaseNotes.file.readText().replace("\n\r", "\n").trim()
+                            }
+                        }
+                    }
+                )
             }
         }
 

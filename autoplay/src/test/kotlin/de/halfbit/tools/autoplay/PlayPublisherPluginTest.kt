@@ -15,6 +15,9 @@ import org.junit.internal.matchers.ThrowableMessageMatcher.hasMessage
 import org.junit.rules.ExpectedException
 import java.io.File
 
+private const val EXPECTED_EXTENSION_NAME = "autoplay"
+
+@Suppress("RemoveSingleExpressionStringTemplate")
 internal class PlayPublisherPluginTest {
 
     @Rule
@@ -43,7 +46,7 @@ internal class PlayPublisherPluginTest {
                 "compileSdkVersion"(27)
             }
 
-            "autoplay" {
+            "$EXPECTED_EXTENSION_NAME" {
                 "track"("internal")
                 "status"("inProgress")
                 "userFraction"(0.5)
@@ -72,8 +75,8 @@ internal class PlayPublisherPluginTest {
 
         val releaseNotes = publishApkRelease.releaseNotes.first()
         assertThat(releaseNotes).isNotNull()
-        assertThat(releaseNotes.locale).isEqualTo("en_US")
-        assertThat(releaseNotes.file.path).endsWith("release-notes/internal/en_US.txt")
+        assertThat(releaseNotes.locale).isEqualTo("en-US")
+        assertThat(releaseNotes.file.path).endsWith("release-notes/internal/en-US.txt")
 
         assertThat(publishApkRelease.credentials).isNotNull()
         assertThat(publishApkRelease.credentials.secretJson).isEqualTo("secret")
@@ -90,7 +93,7 @@ internal class PlayPublisherPluginTest {
     fun `PublishApkTask, missing 'track'`() {
 
         thrown.expect(ProjectConfigurationException::class.java)
-        thrown.expectCause(hasMessage(equalTo("autoplay { track } property is required.")))
+        thrown.expectCause(hasMessage(equalTo("$EXPECTED_EXTENSION_NAME { track } property is required.")))
 
         project.withGroovyBuilder {
             "android" {
