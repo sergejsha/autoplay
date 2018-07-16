@@ -57,8 +57,6 @@ internal class V3GooglePlayPublisher(
             apkVersionCode.toLong()
         }
 
-
-
         edits.tracks()
             .update(
                 data.applicationId,
