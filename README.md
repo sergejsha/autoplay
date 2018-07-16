@@ -37,6 +37,8 @@ buildscript {
 }
 ```
 
+Releases of Autoplay are published to `mavenCentral()` repository. Checkout [releases](https://github.com/beworker/autoplay/releases) section to find the last release version.
+
 In the application module's `build.gradle`
 
 ```gradle
@@ -86,9 +88,9 @@ base64 -i secret.json -o -
 
 and provide the value to the build script using a [protected variable](https://docs.gitlab.com/ee/ci/variables/#variables).
 
-# Listings
+# Release Notes
 
-Autoplay takes apk- and mapping-files from the respective build output directories. Listing files for uploading (like release notes) should be provided additionally. Autoplay expects listing files to be stored under `src/main/autoplay` in accordance to the structure shown below.
+Autoplay takes apk- and mapping-files for uploading from the respective build output directories. Release notes assigned to a release should be provided additionally. Autoplay expects release notes to be stored under `src/main/autoplay/release-notes` directory in accordance with the structure shown down below.
 
 ```
 src
@@ -96,11 +98,11 @@ src
        +- java
        +- autoplay
             +- release-notes
-                 +- <track>                       e.g. internal
-                     +- <language>-<COUNTRY>.txt  e.g. en-US.txt
+                 +- <track>           e.g. internal
+                     +- <locale>.txt  e.g. en-US.txt
 ```
 
-Releases of Autoplay are published to `mavenCentral()` repository. Checkout [releases](https://github.com/beworker/autoplay/releases) section to find the last release version. Happy continuous integration!
+Happy continuous integration!
 
 # License
 ```
