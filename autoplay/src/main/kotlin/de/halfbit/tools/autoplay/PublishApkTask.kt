@@ -55,7 +55,8 @@ internal open class PublishApkTask : DefaultTask() {
 
         fun Credentials.validate() {
             if (!secretJson.isNullOrEmpty() && !secretJsonPath.isNullOrEmpty()) {
-                error("Either autoplay { secretJsonBase46 } or autoplay { secretJsonPath } must be specified, never both.")
+                error("Either $EXTENSION_NAME { secretJsonBase64 } or" +
+                    " $EXTENSION_NAME { secretJsonPath } must be specified, never both.")
             }
         }
 

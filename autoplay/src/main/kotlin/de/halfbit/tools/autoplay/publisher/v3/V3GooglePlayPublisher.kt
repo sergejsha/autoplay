@@ -9,6 +9,7 @@ import com.google.api.services.androidpublisher.AndroidPublisherScopes
 import com.google.api.services.androidpublisher.model.LocalizedText
 import com.google.api.services.androidpublisher.model.Track
 import com.google.api.services.androidpublisher.model.TrackRelease
+import de.halfbit.tools.autoplay.EXTENSION_NAME
 import de.halfbit.tools.autoplay.publisher.Credentials
 import de.halfbit.tools.autoplay.publisher.GooglePlayPublisher
 import de.halfbit.tools.autoplay.publisher.ReleaseData
@@ -106,18 +107,18 @@ internal class V3GooglePlayPublisher(
             return releaseNotes.map {
                 LocalizedText().apply {
                     language = it.locale
-                    text = it.file.readText().replace("\n\r", "\n")
+                    text = it.file.readText().replace("\n\r", "\n").trim()
                 }
             }
         }
 
         private fun ReleaseData.validate() {
             if (artifacts.isEmpty()) {
-                error("No artifacts to publish.")
+                error("No artifacts found for publishing.")
             }
             artifacts.forEach {
                 if (!it.exists()) error("Artifact does not exist: $it")
-                if (it.length() == 0L) error("Artifact is empty: $it")
+                if (it.length() == 0L) error("Artifact must not be empty: $it")
             }
         }
 
@@ -134,19 +135,19 @@ internal class V3GooglePlayPublisher(
         private fun Credentials.getSecretJson(): String {
             if (secretJson != null) {
                 if (secretJson.isEmpty()) {
-                    error("autoplay { secretJsonBase64 } must not be empty.")
+                    error("$EXTENSION_NAME { secretJsonBase64 } must not be empty.")
                 }
                 return secretJson
             }
             if (secretJsonPath == null) {
-                error("Either autoplay { secretJsonBase64 } or autoplay { secretJsonPath } must be specified.")
+                error("Either $EXTENSION_NAME { secretJsonBase64 } or $EXTENSION_NAME { secretJsonPath } must be specified.")
             }
             val file = File(secretJsonPath)
             if (!file.exists()) {
                 error("SecretJson file cannot be found: $file")
             }
             if (file.length() == 0L) {
-                error("SecretJson file is empty: $file")
+                error("SecretJson file must not be empty: $file")
             }
             return file.readText()
         }
