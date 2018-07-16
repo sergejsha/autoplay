@@ -108,7 +108,11 @@ internal class PlayPublisherPlugin : Plugin<Project> {
         }
 
         fun AutoplayPublisherExtension.getCredentials(): Credentials {
-            val secretJson = Base64.getDecoder().decode(secretJsonBase64).toString(Charsets.UTF_8)
+            val secretJson = if (secretJsonBase64 != null) {
+                Base64.getDecoder().decode(secretJsonBase64).toString(Charsets.UTF_8)
+            } else {
+                null
+            }
             return Credentials(secretJson, secretJsonPath)
         }
 
