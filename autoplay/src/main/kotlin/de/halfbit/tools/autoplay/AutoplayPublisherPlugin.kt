@@ -127,9 +127,9 @@ internal class PlayPublisherPlugin : Plugin<Project> {
         }
 
         private fun File.getLocale(): String {
-            if (name.length < 5 || name.substring(2, 3) != "_") {
-                error("Release notes file name must have the following format:" +
-                    " <language>_<country>.txt, e.g. en_US.txt. Found name: $this")
+            if (name.length < 5 || name.substring(2, 3) != "-") {
+                error("Release notes must be named using the following format:" +
+                    " <language>-<COUNTRY>.txt, e.g. en-US.txt. Found name: $this")
             }
             return name.substring(0, 5)
         }

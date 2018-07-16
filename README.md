@@ -97,7 +97,7 @@ src
        +- autoplay
             +- release-notes
                  +- <track>                       e.g. internal
-                     +- <language>_<COUNTRY>.txt  e.g. en-US.txt
+                     +- <language>-<COUNTRY>.txt  e.g. en-US.txt
 ```
 
 Releases of Autoplay are published to `mavenCentral()` repository. Checkout [releases](https://github.com/beworker/autoplay/releases) section to find the last release version. Happy continuous integration!
