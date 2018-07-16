@@ -56,12 +56,17 @@ internal class V3GooglePlayPublisher(
             apkVersionCode.toLong()
         }
 
+        val trackUpdate = Track().apply {
+            track = data.releaseTrack.name
+            releases = listOf(data.createTrackRelease(apkVersionCodes))
+        }
+
         edits.tracks()
             .update(
                 data.applicationId,
                 edit.id,
                 data.releaseTrack.name,
-                Track().setReleases(listOf(data.createTrackRelease(apkVersionCodes)))
+                trackUpdate
             )
             .execute()
 
