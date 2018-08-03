@@ -10,12 +10,12 @@ Gradle plugin for publishing Android artifacts to Google Play.
 # Fetures
 
 - Autoplay is optimized for CI/CD usage:
-  - it does **not** trigger artifacts assembly task - you can reuse build artifacts from previous build steps;
-  - it accepts JSON key as **base64-encoded string**, which is a secure and convenient way of providing secret data.
+  - it does **not** trigger assembly task - you can reuse build artifacts from previous build steps;
+  - it accepts JSON key as **base64-encoded string**, which is secure and convenient way of providing sensitive data.
   
 - Autoplay is developer friendly:
   - it does **not** require storing any dummy keys in source control;
-  - it fails just misconfigured publish-task and not the whole build on evaluation step;
+  - it can be used without provided credentials in development;
   - it has a single publish task for uploading akp, mapping file and release notes.
   
 - Autoplay is reliable and future-proof:
@@ -39,7 +39,7 @@ buildscript {
 }
 ```
 
-Releases of Autoplay are published to `mavenCentral()` repository. Checkout [releases](https://github.com/beworker/autoplay/releases) section to find the last release version.
+Releases of Autoplay are published to `mavenCentral()` repository. Check [releases](https://github.com/beworker/autoplay/releases) section to find lastest release version.
 
 In the application module's `build.gradle`
 
