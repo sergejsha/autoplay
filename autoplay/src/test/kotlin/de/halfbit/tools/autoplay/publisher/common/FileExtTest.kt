@@ -43,11 +43,13 @@ class FileExtTest {
     }
 
     companion object {
+
         fun getResourceFile(name: String): File {
             val path = FileExtTest::class.java.getResource(
                 File.separator + "LinesFileReader" + File.separator + name).file
             return File(path)
         }
+
     }
 
 }

@@ -163,7 +163,6 @@ internal class V3GooglePlayPublisher(
             }
             return file.readText()
         }
-
     }
 
 }

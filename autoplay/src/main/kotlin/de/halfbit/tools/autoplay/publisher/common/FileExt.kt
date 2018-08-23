@@ -33,5 +33,6 @@ internal fun File.readTextLines(maxLength: Long): String {
             complete = true
         }
     }
+
     return text.toString()
 }
