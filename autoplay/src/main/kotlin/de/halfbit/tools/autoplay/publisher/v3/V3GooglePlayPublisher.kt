@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2018 Sergej Shafarenka, www.halfbit.de
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package de.halfbit.tools.autoplay.publisher.v3
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
@@ -14,6 +30,7 @@ import de.halfbit.tools.autoplay.publisher.Credentials
 import de.halfbit.tools.autoplay.publisher.GooglePlayPublisher
 import de.halfbit.tools.autoplay.publisher.ReleaseData
 import de.halfbit.tools.autoplay.publisher.ReleaseTrack
+import de.halfbit.tools.autoplay.publisher.common.readTextLines
 import java.io.File
 
 internal const val MIME_TYPE_APK = "application/vnd.android.package-archive"
@@ -42,14 +59,14 @@ internal class V3GooglePlayPublisher(
                 .execute()
                 .versionCode
 
-            data.obfuscationMappingFile?.let {
+            data.obfuscationMappingFile?.let { obfuscationMappingFile ->
                 edits.deobfuscationfiles()
                     .upload(
                         data.applicationId,
                         appEdit.id,
                         apkVersionCode,
                         TYPE_PROGUARD,
-                        FileContent(MIME_TYPE_STREAM, it)
+                        FileContent(MIME_TYPE_STREAM, obfuscationMappingFile)
                     )
                     .execute()
             }
@@ -99,7 +116,7 @@ internal class V3GooglePlayPublisher(
                         releaseNotes = this@createTrackUpdate.releaseNotes.map { releaseNotes ->
                             LocalizedText().apply {
                                 language = releaseNotes.locale
-                                text = releaseNotes.file.readText().replace("\n\r", "\n").trim()
+                                text = releaseNotes.file.readTextLines(maxLength = 500)
                             }
                         }
                     }
