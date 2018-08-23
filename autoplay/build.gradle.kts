@@ -14,7 +14,7 @@ repositories {
 dependencies {
     compileOnly("com.android.tools.build:gradle:3.0.1")
 
-    implementation(kotlin("stdlib", "1.2.60"))
+    implementation(kotlin("stdlib", "1.2.61"))
     implementation("com.google.apis:google-api-services-androidpublisher:v3-rev12-1.23.0")
 
     testImplementation("junit:junit:4.12")
