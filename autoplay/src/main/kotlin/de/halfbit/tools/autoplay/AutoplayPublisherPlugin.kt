@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2018 Sergej Shafarenka, www.halfbit.de
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package de.halfbit.tools.autoplay
 
 import com.android.build.gradle.AppExtension
@@ -29,30 +45,59 @@ internal class PlayPublisherPlugin : Plugin<Project> {
             val applicationVariant = this@whenObjectAdded
             val variantName = name.capitalize()
 
-            project.createTask("publishApk$variantName", PublishApkTask::class) {
-                description = "Publish $variantName apk, mapping and release-notes to Google Play."
-                group = TASK_GROUP
+            when (extension.artifactType) {
+                ArtifactType.Apk.name -> {
+                    project.createTask("publishApk$variantName", PublishTask::class) {
+                        description = "Publish $variantName apk, mapping and release-notes to Google Play."
+                        group = TASK_GROUP
 
-                applicationId = applicationVariant.applicationId
-                artifactFiles = getArtifactFiles()
-                obfuscationMappingFile = getObfuscationMappingFile()
-                releaseTrack = extension.getReleaseTrack()
-                releaseStatus = extension.getReleaseStatus()
-                releaseNotes = extension.getReleaseNotes(project.projectDir)
-                credentials = extension.getCredentials()
+                        applicationId = applicationVariant.applicationId
+                        artifactType = ArtifactType.Apk
+                        artifacts = collectArtifacts(ArtifactType.Apk, project)
+                        obfuscationMappingFile = getObfuscationMappingFile()
+                        releaseTrack = extension.getReleaseTrack()
+                        releaseStatus = extension.getReleaseStatus()
+                        releaseNotes = extension.getReleaseNotes(project.projectDir)
+                        credentials = extension.getCredentials()
+                    }
+                }
+
+                ArtifactType.Bundle.name -> {
+                    project.createTask("publishBundle$variantName", PublishTask::class) {
+                        description = "Publish $variantName bundle and release-notes to Google Play."
+                        group = TASK_GROUP
+
+                        applicationId = applicationVariant.applicationId
+                        artifactType = ArtifactType.Bundle
+                        artifacts = collectArtifacts(ArtifactType.Bundle, project)
+                        releaseTrack = extension.getReleaseTrack()
+                        releaseStatus = extension.getReleaseStatus()
+                        releaseNotes = extension.getReleaseNotes(project.projectDir)
+                        credentials = extension.getCredentials()
+                    }
+                }
             }
         }
-
     }
 
     companion object {
 
         private const val MINIMAL_ANDROID_PLUGIN_VERSION = "3.0.1"
 
-        private fun ApplicationVariant.getArtifactFiles(): List<File> {
-            return this.outputs
-                .filterIsInstance<ApkVariantOutput>()
-                .map { it.outputFile }
+        private fun ApplicationVariant.collectArtifacts(
+            artifactType: ArtifactType, project: Project
+        ): List<File> {
+
+            return when (artifactType) {
+                ArtifactType.Apk -> this.outputs
+                    .filterIsInstance<ApkVariantOutput>()
+                    .map { it.outputFile }
+
+                ArtifactType.Bundle -> {
+                    val archivesBaseName = project.properties["archivesBaseName"] as String
+                    listOf(File(project.buildDir, "outputs/bundle/$name/$archivesBaseName.aab"))
+                }
+            }
         }
 
         private fun ApplicationVariant.getObfuscationMappingFile(): File? {

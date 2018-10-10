@@ -1,6 +1,6 @@
-./build/
+build/
+!autoplay/src/test/resources/sample-app/app/build/
 
-autoplay/build/
 captures/
 out/
 userHome/

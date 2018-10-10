@@ -12,10 +12,10 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.android.tools.build:gradle:3.0.1")
+    compileOnly("com.android.tools.build:gradle:3.2.0")
 
-    implementation(kotlin("stdlib", "1.2.61"))
-    implementation("com.google.apis:google-api-services-androidpublisher:v3-rev12-1.23.0")
+    implementation(kotlin("stdlib", "1.2.71"))
+    implementation("com.google.apis:google-api-services-androidpublisher:v3-rev30-1.25.0")
 
     testImplementation("junit:junit:4.12")
     testImplementation("com.google.truth:truth:0.40")
@@ -33,7 +33,7 @@ gradlePlugin {
 }
 
 group = "de.halfbit"
-version = "0.3.3"
+version = "1.0.0"
 
 publishing {
 
