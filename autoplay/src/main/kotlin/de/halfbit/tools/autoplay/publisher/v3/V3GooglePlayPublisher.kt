@@ -22,14 +22,12 @@ import com.google.api.client.http.FileContent
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.androidpublisher.AndroidPublisher
 import com.google.api.services.androidpublisher.AndroidPublisherScopes
+import com.google.api.services.androidpublisher.model.AppEdit
 import com.google.api.services.androidpublisher.model.LocalizedText
 import com.google.api.services.androidpublisher.model.Track
 import com.google.api.services.androidpublisher.model.TrackRelease
 import de.halfbit.tools.autoplay.EXTENSION_NAME
-import de.halfbit.tools.autoplay.publisher.Credentials
-import de.halfbit.tools.autoplay.publisher.GooglePlayPublisher
-import de.halfbit.tools.autoplay.publisher.ReleaseData
-import de.halfbit.tools.autoplay.publisher.ReleaseTrack
+import de.halfbit.tools.autoplay.publisher.*
 import de.halfbit.tools.autoplay.publisher.common.readTextLines
 import java.io.File
 
@@ -48,30 +46,12 @@ internal class V3GooglePlayPublisher(
         val edits = androidPublisher.edits()
         val appEdit = edits.insert(data.applicationId, null).execute()
 
-        val apkVersionCodes = data.artifacts.map {
-
-            val apkVersionCode = edits.apks()
-                .upload(
-                    data.applicationId,
-                    appEdit.id,
-                    FileContent(MIME_TYPE_APK, it)
-                )
-                .execute()
-                .versionCode
-
-            data.obfuscationMappingFile?.let { obfuscationMappingFile ->
-                edits.deobfuscationfiles()
-                    .upload(
-                        data.applicationId,
-                        appEdit.id,
-                        apkVersionCode,
-                        TYPE_PROGUARD,
-                        FileContent(MIME_TYPE_STREAM, obfuscationMappingFile)
-                    )
-                    .execute()
+        val artifactVersionCodes = data.artifacts.map {
+            val artifactVersionCode = when (it) {
+                is ReleaseArtifact.Apk -> it.uploadApk(edits, data, appEdit)
+                is ReleaseArtifact.Bundle -> it.uploadBundle(edits, data, appEdit)
             }
-
-            apkVersionCode.toLong()
+            artifactVersionCode.toLong()
         }
 
         edits.tracks()
@@ -79,7 +59,7 @@ internal class V3GooglePlayPublisher(
                 data.applicationId,
                 appEdit.id,
                 data.releaseTrack.name,
-                data.createTrackUpdate(apkVersionCodes)
+                data.createTrackUpdate(artifactVersionCodes)
             )
             .execute()
 
@@ -129,8 +109,8 @@ internal class V3GooglePlayPublisher(
                 error("No artifacts found for publishing.")
             }
             artifacts.forEach {
-                if (!it.exists()) error("Artifact does not exist: $it")
-                if (it.length() == 0L) error("Artifact must not be empty: $it")
+                if (!it.file.exists()) error("Artifact does not exist: ${it.file}")
+                if (it.file.length() == 0L) error("Artifact must not be empty: ${it.file}")
             }
         }
 
@@ -165,4 +145,45 @@ internal class V3GooglePlayPublisher(
         }
     }
 
+}
+
+private fun ReleaseArtifact.Apk.uploadApk(
+    edits: AndroidPublisher.Edits, data: ReleaseData, appEdit: AppEdit
+): Int {
+
+    val apkVersionCode = edits.apks()
+        .upload(
+            data.applicationId,
+            appEdit.id,
+            FileContent(MIME_TYPE_APK, file)
+        )
+        .execute()
+        .versionCode
+
+    data.obfuscationMappingFile?.let { obfuscationMappingFile ->
+        edits.deobfuscationfiles()
+            .upload(
+                data.applicationId,
+                appEdit.id,
+                apkVersionCode,
+                TYPE_PROGUARD,
+                FileContent(MIME_TYPE_STREAM, obfuscationMappingFile)
+            )
+            .execute()
+    }
+
+    return apkVersionCode
+}
+
+private fun ReleaseArtifact.Bundle.uploadBundle(
+    edits: AndroidPublisher.Edits, data: ReleaseData, appEdit: AppEdit
+): Int {
+    return edits.bundles()
+        .upload(
+            data.applicationId,
+            appEdit.id,
+            FileContent(MIME_TYPE_STREAM, file)
+        )
+        .execute()
+        .versionCode
 }
