@@ -41,7 +41,7 @@ buildscript {
 
 Releases of Autoplay are published to `mavenCentral()` repository. Check [releases](https://github.com/beworker/autoplay/releases) section to find lastest release version available.
 
-## Publishing apk file
+## Publishing apk
 
 In the application module's `build.gradle`
 
