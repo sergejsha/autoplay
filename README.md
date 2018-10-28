@@ -43,9 +43,10 @@ Releases of Autoplay are published to `mavenCentral()` repository. Check [releas
 
 ## Gradle compatibility
 
-Gradle 4.8 - Autoplay 1.0.0
-
-Gradle 4.10.1 - Autoplay 1.1.0
+Gradle Version | Autoplay Version
+-----------|---------------
+|4.8 | 1.0.0|
+|4.10.1 | 1.1.0|
 
 ## Publishing apk
 
