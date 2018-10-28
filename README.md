@@ -40,7 +40,7 @@ buildscript {
 }
 ```
 
-Releases of Autoplay are published to `mavenCentral()` repository. Check [releases](https://github.com/beworker/autoplay/releases) section to find lastest release version available.
+Latest published version can be found at [![Maven central](http://img.shields.io/maven-central/v/de.halfbit/autoplay.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22de.halfbit%22%20a%3A%22autoplay%22)
 
 ## Gradle compatibility
 
