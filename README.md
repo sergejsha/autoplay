@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/beworker/autoplay.svg?branch=master)](https://travis-ci.org/beworker/autoplay)
-[![Kotlin version badge](https://img.shields.io/badge/kotlin-1.2.71-blue.svg)](http://kotlinlang.org/)
+[![Kotlin version badge](https://img.shields.io/badge/kotlin-1.2.61-blue.svg)](http://kotlinlang.org/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
 <img src="https://github.com/beworker/autoplay/blob/master/publishing/autoplay-logo.png" alt="autoplay" width=200 />
@@ -40,6 +40,12 @@ buildscript {
 ```
 
 Releases of Autoplay are published to `mavenCentral()` repository. Check [releases](https://github.com/beworker/autoplay/releases) section to find lastest release version available.
+
+## Gradle compatibility
+
+Gradle 4.8 - Autoplay 1.0.0
+
+Gradle 4.10.1 - Autoplay 1.1.0
 
 ## Publishing apk
 
