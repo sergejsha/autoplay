@@ -19,8 +19,8 @@ package de.halfbit.tools.autoplay
 import com.google.common.truth.Truth.assertThat
 import de.halfbit.tools.autoplay.publisher.ReleaseStatus
 import de.halfbit.tools.autoplay.publisher.ReleaseTrack
+import org.gradle.api.GradleException
 import org.gradle.api.Project
-import org.gradle.api.ProjectConfigurationException
 import org.gradle.kotlin.dsl.withGroovyBuilder
 import org.gradle.testfixtures.ProjectBuilder
 import org.hamcrest.core.IsEqual.equalTo
@@ -159,9 +159,9 @@ internal class PlayPublisherPluginTest {
     }
 
     @Test
-    fun `PublishTask, missing 'track'`() {
+    fun `PublishApkTask, missing 'track'`() {
 
-        thrown.expect(ProjectConfigurationException::class.java)
+        thrown.expect(GradleException::class.java)
         thrown.expectCause(hasMessage(equalTo("$EXPECTED_EXTENSION_NAME { track } property is required.")))
 
         project.withGroovyBuilder {
@@ -172,6 +172,27 @@ internal class PlayPublisherPluginTest {
             }
             "evaluate"()
         }
+
+        project.getTasksByName("publishApkRelease", false)
+    }
+
+    @Test
+    fun `PublishBundleTask, missing 'track'`() {
+
+        thrown.expect(GradleException::class.java)
+        thrown.expectCause(hasMessage(equalTo("$EXPECTED_EXTENSION_NAME { track } property is required.")))
+
+        project.withGroovyBuilder {
+            "android" {
+                "compileSdkVersion"(27)
+            }
+            "autoplay" {
+                "artifactType"("bundle")
+            }
+            "evaluate"()
+        }
+
+        project.getTasksByName("publishBundleRelease", false)
     }
 
 }

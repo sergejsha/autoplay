@@ -23,7 +23,8 @@ import com.android.builder.model.Version
 import de.halfbit.tools.autoplay.publisher.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.createTask
+import org.gradle.kotlin.dsl.invoke
+import org.gradle.kotlin.dsl.register
 import java.io.File
 import java.util.*
 
@@ -47,33 +48,37 @@ internal class PlayPublisherPlugin : Plugin<Project> {
 
             when (extension.artifactType) {
                 ArtifactType.Apk.name -> {
-                    project.createTask("publishApk$variantName", PublishTask::class) {
-                        description = "Publish $variantName apk, mapping and release-notes to Google Play."
-                        group = TASK_GROUP
+                    project.tasks {
+                        register("publishApk$variantName", PublishTask::class) {
+                            description = "Publish $variantName apk, mapping and release-notes to Google Play."
+                            group = TASK_GROUP
 
-                        applicationId = applicationVariant.applicationId
-                        artifactType = ArtifactType.Apk
-                        artifacts = collectArtifacts(ArtifactType.Apk, project)
-                        obfuscationMappingFile = getObfuscationMappingFile()
-                        releaseTrack = extension.getReleaseTrack()
-                        releaseStatus = extension.getReleaseStatus()
-                        releaseNotes = extension.getReleaseNotes(project.projectDir)
-                        credentials = extension.getCredentials()
+                            applicationId = applicationVariant.applicationId
+                            artifactType = ArtifactType.Apk
+                            artifacts = collectArtifacts(ArtifactType.Apk, project)
+                            obfuscationMappingFile = getObfuscationMappingFile()
+                            releaseTrack = extension.getReleaseTrack()
+                            releaseStatus = extension.getReleaseStatus()
+                            releaseNotes = extension.getReleaseNotes(project.projectDir)
+                            credentials = extension.getCredentials()
+                        }
                     }
                 }
 
                 ArtifactType.Bundle.name -> {
-                    project.createTask("publishBundle$variantName", PublishTask::class) {
-                        description = "Publish $variantName bundle and release-notes to Google Play."
-                        group = TASK_GROUP
+                    project.tasks {
+                        register("publishBundle$variantName", PublishTask::class) {
+                            description = "Publish $variantName bundle and release-notes to Google Play."
+                            group = TASK_GROUP
 
-                        applicationId = applicationVariant.applicationId
-                        artifactType = ArtifactType.Bundle
-                        artifacts = collectArtifacts(ArtifactType.Bundle, project)
-                        releaseTrack = extension.getReleaseTrack()
-                        releaseStatus = extension.getReleaseStatus()
-                        releaseNotes = extension.getReleaseNotes(project.projectDir)
-                        credentials = extension.getCredentials()
+                            applicationId = applicationVariant.applicationId
+                            artifactType = ArtifactType.Bundle
+                            artifacts = collectArtifacts(ArtifactType.Bundle, project)
+                            releaseTrack = extension.getReleaseTrack()
+                            releaseStatus = extension.getReleaseStatus()
+                            releaseNotes = extension.getReleaseNotes(project.projectDir)
+                            credentials = extension.getCredentials()
+                        }
                     }
                 }
             }
