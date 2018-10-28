@@ -13,8 +13,6 @@ repositories {
 
 dependencies {
     compileOnly("com.android.tools.build:gradle:3.2.0")
-
-    implementation(kotlin("stdlib", "1.2.71"))
     implementation("com.google.apis:google-api-services-androidpublisher:v3-rev30-1.25.0")
 
     testImplementation("junit:junit:4.12")
@@ -24,8 +22,8 @@ dependencies {
 
 gradlePlugin {
     isAutomatedPublishing = false
-    (plugins) {
-        "android-autoplay" {
+    plugins {
+        create("android-autoplay") {
             id = "android-autoplay"
             implementationClass = "de.halfbit.tools.autoplay.PlayPublisherPlugin"
         }
@@ -33,7 +31,7 @@ gradlePlugin {
 }
 
 group = "de.halfbit"
-version = "1.0.0"
+version = "1.1.0"
 
 publishing {
 
@@ -59,7 +57,7 @@ publishing {
 
     val sourcesJar by tasks.creating(Jar::class) {
         classifier = "sources"
-        from(java.sourceSets["main"].allSource)
+        from(sourceSets["main"].allSource)
     }
 
     val javadocJar by tasks.creating(Jar::class) {
@@ -67,8 +65,8 @@ publishing {
         from(dokka)
     }
 
-    (publications) {
-        "Autoplay"(MavenPublication::class) {
+    publications {
+        create("Autoplay", MavenPublication::class) {
             from(components["java"])
             artifact(sourcesJar)
             artifact(javadocJar)
