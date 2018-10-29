@@ -119,7 +119,7 @@ base64 -i secret.json -o -
 
 and provide the value to the build script using a [protected variable](https://docs.gitlab.com/ee/ci/variables/#variables).
 
-# Release Notes
+## Publishing Release Notes
 
 Autoplay takes apk and obfuscation mapping files (or app bundle files, if `artifactType "bundle"` is set) for uploading from the default build output directories. Release notes are to be stored under `src/main/autoplay/release-notes` directory in accordance to the structure shown down below.
 
