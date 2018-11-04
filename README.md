@@ -8,7 +8,7 @@
 # Autoplay
 Gradle plugin for publishing Android artifacts to Google Play.
 
-# Fetures
+# Features
 
 - Autoplay is optimized for CI/CD usage:
   - it does **not** trigger assembly task - you can reuse build artifacts from previous build steps;
