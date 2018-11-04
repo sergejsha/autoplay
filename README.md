@@ -12,15 +12,15 @@ Gradle plugin for publishing Android artifacts to Google Play.
 
 - Autoplay is optimized for CI/CD usage:
   - it does **not** trigger assembly task - you can reuse build artifacts from previous build steps;
-  - it accepts JSON key as **base64-encoded string**, which is secure and convenient way of providing sensitive data.
+  - it accepts JSON key as **base64-encoded string**, which is a secure and convenient way of providing sensitive data.
   
 - Autoplay is developer friendly:
   - it does **not** require storing any dummy keys in source control;
-  - it can be used without provided credentials in development;
+  - it can be used without credentials provided in development;
   - it has a single publish task for uploading artifacts (apk or app bundle) and release notes.
   
 - Autoplay is reliable and future-proof:
-  - it has very clean and concise implementation, which is easy to understand, extend or fix, if needed;
+  - it has clean and concise implementation, which is easy to understand, extend and fix;
   - it's covered by unit tests;
   - it's built using latest technologies and tools.
  
@@ -63,7 +63,7 @@ autoplay {
 }
 ```
 
-Call `./gradlew tasks` and you will see a new publishing task `publishApk<BuildVariant>` in the list. Autoplay adds this task for each build variant of `release` type. For a project without custom build flavors configured, the task is called `publishApkRelease`.
+Execute `./gradlew tasks` and you will see a new publishing task `publishApk<BuildVariant>` in the list. Autoplay adds this task for each build variant of `release` type. For a project without custom build flavors the task is named `publishApkRelease`.
 
 ## Publishing app bundle
 
@@ -80,7 +80,7 @@ autoplay {
 }
 ```
 
-Call `./gradlew tasks` and you will see a new publishing task `publishBundle<BuildVariant>` in the list. Autoplay adds this task for each build variant of `release` type. For a project without custom build flavors configured, the task is called `publishBundleRelease`.
+Execute `./gradlew tasks` and you will see a new publishing task `publishBundle<BuildVariant>` in the list. Autoplay adds this task for each build variant of `release` type. For a project without custom build flavors the task is named `publishBundleRelease`.
 
 ## Central build
 
@@ -121,7 +121,7 @@ and provide the value to the build script using a [protected variable](https://d
 
 ## Publishing Release Notes
 
-Autoplay takes apk and obfuscation mapping files (or app bundle files, if `artifactType "bundle"` is set) for uploading from the default build output directories. Release notes are to be stored under `src/main/autoplay/release-notes` directory in accordance to the structure shown down below.
+Autoplay takes apk and obfuscation mapping files (or app bundle file, if `artifactType "bundle"` is set) for uploading from the default build output directories. Release notes are to be stored under `src/main/autoplay/release-notes` directory in accordance to the structure shown down below.
 
 ```
 src
