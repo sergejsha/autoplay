@@ -51,13 +51,16 @@ internal open class PublishTask : DefaultTask() {
     @get:Input
     var releaseStatus: ReleaseStatus = ReleaseStatus.Completed
 
+    @get:Input
+    var httpTimeout: Int? = null
+
     @TaskAction
     @Suppress("UNUSED_PARAMETER", "unused")
     fun execute(inputs: IncrementalTaskInputs) {
         credentials.validate()
 
         V3GooglePlayPublisher
-            .getGooglePlayPublisher(credentials, applicationId)
+            .getGooglePlayPublisher(credentials, applicationId, httpTimeout)
             .publish(
                 ReleaseData(
                     applicationId,

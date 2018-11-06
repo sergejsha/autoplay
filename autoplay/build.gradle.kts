@@ -33,7 +33,7 @@ gradlePlugin {
 }
 
 group = "de.halfbit"
-version = "1.0.0"
+version = "1.0.1"
 
 publishing {
 
@@ -100,8 +100,13 @@ publishing {
 
 }
 
-signing {
-    sign(publishing.publications["Autoplay"])
+if (project.hasProperty("signing.keyId")) {
+    plugins {
+        id("org.gradle.signing")
+    }
+    signing {
+        sign(publishing.publications["Autoplay"])
+    }
 }
 
 fun Project.getPropertyOrEmptyString(name: String): String {

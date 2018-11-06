@@ -73,15 +73,21 @@ internal class V3GooglePlayPublisher(
         private val httpTransport = GoogleNetHttpTransport.newTrustedTransport()
         private var publisher: GooglePlayPublisher? = null
 
-        private fun createAndroidPublisher(secretJson: String, applicationName: String): AndroidPublisher {
+        private fun createAndroidPublisher(secretJson: String, applicationName: String, httpTimeout: Int?): AndroidPublisher {
             val credentials = GoogleCredential
                 .fromStream(secretJson.byteInputStream(), httpTransport, jsonFactory)
                 .createScoped(listOf(AndroidPublisherScopes.ANDROIDPUBLISHER))
 
             return AndroidPublisher
-                .Builder(httpTransport, jsonFactory, credentials)
-                .setApplicationName(applicationName)
-                .build()
+                    .Builder(httpTransport, jsonFactory) { httpRequest ->
+                        credentials.initialize(httpRequest)
+                        httpTimeout?.let {
+                            httpRequest.connectTimeout = it
+                            httpRequest.readTimeout = it
+                        }
+                    }
+                    .setApplicationName(applicationName)
+                    .build()
         }
 
         private fun ReleaseData.createTrackUpdate(apkVersionCodes: List<Long>): Track {
@@ -114,10 +120,10 @@ internal class V3GooglePlayPublisher(
             }
         }
 
-        fun getGooglePlayPublisher(credentials: Credentials, applicationName: String): GooglePlayPublisher {
+        fun getGooglePlayPublisher(credentials: Credentials, applicationName: String, httpTimeout: Int?): GooglePlayPublisher {
             var instance = publisher
             if (instance == null) {
-                val androidPublisher = createAndroidPublisher(credentials.getSecretJson(), applicationName)
+                val androidPublisher = createAndroidPublisher(credentials.getSecretJson(), applicationName, httpTimeout)
                 instance = V3GooglePlayPublisher(androidPublisher)
                 publisher = instance
             }

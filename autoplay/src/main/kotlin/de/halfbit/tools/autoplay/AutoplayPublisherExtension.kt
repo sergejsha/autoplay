@@ -29,4 +29,5 @@ internal open class AutoplayPublisherExtension {
     var secretJsonPath: String? = null
     var releaseNotesPath: String? = RELEASE_NOTES_PATH
     var artifactType = ArtifactType.Apk.name
+    var httpTimeout: Int? = null
 }

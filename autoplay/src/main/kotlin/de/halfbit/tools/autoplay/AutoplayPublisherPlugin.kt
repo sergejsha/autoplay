@@ -59,6 +59,7 @@ internal class PlayPublisherPlugin : Plugin<Project> {
                         releaseStatus = extension.getReleaseStatus()
                         releaseNotes = extension.getReleaseNotes(project.projectDir)
                         credentials = extension.getCredentials()
+                        httpTimeout = extension.httpTimeout
                     }
                 }
 
@@ -74,6 +75,7 @@ internal class PlayPublisherPlugin : Plugin<Project> {
                         releaseStatus = extension.getReleaseStatus()
                         releaseNotes = extension.getReleaseNotes(project.projectDir)
                         credentials = extension.getCredentials()
+                        httpTimeout = extension.httpTimeout
                     }
                 }
             }
