@@ -19,6 +19,7 @@ package de.halfbit.tools.autoplay
 import de.halfbit.tools.autoplay.publisher.*
 import de.halfbit.tools.autoplay.publisher.v3.V3GooglePlayPublisher
 import org.gradle.api.DefaultTask
+import org.gradle.api.Project
 import org.gradle.api.tasks.*
 import org.gradle.api.tasks.incremental.IncrementalTaskInputs
 import java.io.File
@@ -55,9 +56,10 @@ internal open class PublishTask : DefaultTask() {
     @Suppress("UNUSED_PARAMETER", "unused")
     fun execute(inputs: IncrementalTaskInputs) {
         credentials.validate()
+
         val configuration = Configuration(
-                readTimeout = (project.properties["de.halfbit.autoplay.readTimeout"] as? String)?.toInt() ?: 120_000,
-                connectTimeout = (project.properties["de.halfbit.autoplay.connectTimeout"] as? String)?.toInt() ?: 120_000
+            readTimeout = project.getIntProperty("readTimeout", 120_000),
+            connectTimeout = project.getIntProperty("connectTimeout", 120_000)
         )
 
         V3GooglePlayPublisher
@@ -75,6 +77,9 @@ internal open class PublishTask : DefaultTask() {
     }
 
 }
+
+private fun Project.getIntProperty(propertyName: String, default: Int): Int =
+    (project.properties["de.halfbit.autoplay.$propertyName"] as? String)?.toInt() ?: default
 
 private fun File.toReleaseArtifact(artifactType: ArtifactType): ReleaseArtifact = when (artifactType) {
     ArtifactType.Apk -> ReleaseArtifact.Apk(this)
