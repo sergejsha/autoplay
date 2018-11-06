@@ -70,6 +70,6 @@ internal class Credentials(
 ) : Serializable
 
 internal class Configuration(
-        val readTimeout: Int,
-        val connectTimeout: Int
+    val readTimeout: Int,
+    val connectTimeout: Int
 )
