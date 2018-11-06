@@ -68,3 +68,8 @@ internal class Credentials(
     val secretJson: String?,
     val secretJsonPath: String?
 ) : Serializable
+
+internal class Configuration(
+        val readTimeout: Int,
+        val connectTimeout: Int
+)
