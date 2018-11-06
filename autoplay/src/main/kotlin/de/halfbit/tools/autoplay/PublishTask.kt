@@ -55,9 +55,13 @@ internal open class PublishTask : DefaultTask() {
     @Suppress("UNUSED_PARAMETER", "unused")
     fun execute(inputs: IncrementalTaskInputs) {
         credentials.validate()
+        val configuration = Configuration(
+                readTimeout = (project.properties["de.halfbit.autoplay.readTimeout"] as? String)?.toInt() ?: 120_000,
+                connectTimeout = (project.properties["de.halfbit.autoplay.connectTimeout"] as? String)?.toInt() ?: 120_000
+        )
 
         V3GooglePlayPublisher
-            .getGooglePlayPublisher(credentials, applicationId)
+            .getGooglePlayPublisher(credentials, applicationId, configuration)
             .publish(
                 ReleaseData(
                     applicationId,

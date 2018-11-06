@@ -100,8 +100,10 @@ publishing {
 
 }
 
-signing {
-    sign(publishing.publications["Autoplay"])
+if (project.hasProperty("signing.keyId")) {
+    signing {
+        sign(publishing.publications["Autoplay"])
+    }
 }
 
 fun Project.getPropertyOrEmptyString(name: String): String {

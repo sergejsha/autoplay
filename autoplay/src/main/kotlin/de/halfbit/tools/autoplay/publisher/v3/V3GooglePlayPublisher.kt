@@ -73,15 +73,19 @@ internal class V3GooglePlayPublisher(
         private val httpTransport = GoogleNetHttpTransport.newTrustedTransport()
         private var publisher: GooglePlayPublisher? = null
 
-        private fun createAndroidPublisher(secretJson: String, applicationName: String): AndroidPublisher {
+        private fun createAndroidPublisher(secretJson: String, applicationName: String, configuration: Configuration): AndroidPublisher {
             val credentials = GoogleCredential
                 .fromStream(secretJson.byteInputStream(), httpTransport, jsonFactory)
                 .createScoped(listOf(AndroidPublisherScopes.ANDROIDPUBLISHER))
 
             return AndroidPublisher
-                .Builder(httpTransport, jsonFactory, credentials)
-                .setApplicationName(applicationName)
-                .build()
+                    .Builder(httpTransport, jsonFactory) { httpRequest ->
+                        credentials.initialize(httpRequest)
+                        httpRequest.readTimeout = configuration.readTimeout
+                        httpRequest.connectTimeout = configuration.connectTimeout
+                    }
+                    .setApplicationName(applicationName)
+                    .build()
         }
 
         private fun ReleaseData.createTrackUpdate(apkVersionCodes: List<Long>): Track {
@@ -114,10 +118,10 @@ internal class V3GooglePlayPublisher(
             }
         }
 
-        fun getGooglePlayPublisher(credentials: Credentials, applicationName: String): GooglePlayPublisher {
+        fun getGooglePlayPublisher(credentials: Credentials, applicationName: String, configuration: Configuration): GooglePlayPublisher {
             var instance = publisher
             if (instance == null) {
-                val androidPublisher = createAndroidPublisher(credentials.getSecretJson(), applicationName)
+                val androidPublisher = createAndroidPublisher(credentials.getSecretJson(), applicationName, configuration)
                 instance = V3GooglePlayPublisher(androidPublisher)
                 publisher = instance
             }
