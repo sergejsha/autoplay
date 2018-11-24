@@ -79,7 +79,7 @@ internal open class PublishTask : DefaultTask() {
 }
 
 private fun Project.getIntProperty(propertyName: String, default: Int): Int =
-    (project.properties["de.halfbit.autoplay.$propertyName"] as? String)?.toInt() ?: default
+    (project.properties["autoplay.$propertyName"] as? String)?.toInt() ?: default
 
 private fun File.toReleaseArtifact(artifactType: ArtifactType): ReleaseArtifact = when (artifactType) {
     ArtifactType.Apk -> ReleaseArtifact.Apk(this)
