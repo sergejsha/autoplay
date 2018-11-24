@@ -46,8 +46,8 @@ Latest published version can be found at [![Maven central](http://img.shields.io
 
 Gradle Version | Autoplay Version
 -----------|---------------
-|4.8 | 1.3.0|
-|4.10.1 | 2.3.0|
+|4.8.x | 1.3.0|
+|4.10.x | 2.3.0|
 
 ## Publishing apk
 
@@ -132,6 +132,14 @@ src
                  +- <track>           e.g. internal
                      +- <locale>.txt  e.g. en-US.txt
 ```
+
+## Properties
+Autoplay supports following `gradle.properties`
+
+Name | Default | Description
+-----|---------|-----
+| `autoplay.connectTimeout` | 120000ms | Connection establishment timeout in milliseconds. |
+| `autoplay.readTimeout` | 120000ms | Connection reading timeout in milliseconds. |
 
 Happy continuous integration!
 
