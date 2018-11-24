@@ -33,7 +33,7 @@ gradlePlugin {
 }
 
 group = "de.halfbit"
-version = "1.0.0"
+version = "1.3.0"
 
 publishing {
 
@@ -106,13 +106,9 @@ if (project.hasProperty("signing.keyId")) {
     }
 }
 
-fun Project.getPropertyOrEmptyString(name: String): String {
-    return if (hasProperty(name)) {
-        property(name) as String? ?: ""
-    } else {
-        ""
-    }
-}
+fun Project.getPropertyOrEmptyString(name: String): String =
+    if (hasProperty(name)) property(name) as String? ?: ""
+    else ""
 
 tasks.withType<Test> {
     addTestListener(object : TestListener {
