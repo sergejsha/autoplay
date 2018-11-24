@@ -46,8 +46,8 @@ Latest published version can be found at [![Maven central](http://img.shields.io
 
 Gradle Version | Autoplay Version
 -----------|---------------
-|4.8 | 1.0.0|
-|4.10.1 | 1.1.0|
+|4.8 | 1.3.0|
+|4.10.1 | 2.3.0|
 
 ## Publishing apk
 
