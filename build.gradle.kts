@@ -5,6 +5,10 @@ buildscript {
     }
 }
 
+tasks.withType<Wrapper>().configureEach {
+    distributionType = Wrapper.DistributionType.ALL
+}
+
 allprojects {
     repositories {
         google()
