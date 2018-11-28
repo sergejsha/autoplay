@@ -29,7 +29,7 @@ gradlePlugin {
 }
 
 group = "de.halfbit"
-version = "2.3.0"
+version = "3.0.0-alpha1"
 
 publishing {
 
