@@ -48,6 +48,7 @@ Gradle Version | Autoplay Version
 -----------|---------------
 |4.8.x | 1.3.0|
 |4.10.x | 2.3.0|
+|5.0.x | 3.0.0-alpha1|
 
 ## Publishing apk
 
