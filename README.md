@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/beworker/autoplay.svg?branch=master)](https://travis-ci.org/beworker/autoplay)
-[![Maven central](http://img.shields.io/maven-central/v/de.halfbit/autoplay.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22de.halfbit%22%20a%3A%22autoplay%22)
-[![Kotlin version badge](https://img.shields.io/badge/kotlin-1.2.61-blue.svg)](http://kotlinlang.org/)
+[![Maven Central](http://img.shields.io/maven-central/v/de.halfbit/autoplay.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22de.halfbit%22%20a%3A%22autoplay%22)
+[![Gradle](https://img.shields.io/badge/gradle-5.0-blue.svg)](https://gradle.org/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
 <img src="https://github.com/beworker/autoplay/blob/master/publishing/autoplay-logo.png" alt="autoplay" width=200 />
