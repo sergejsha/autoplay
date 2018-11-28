@@ -1,23 +1,21 @@
 plugins {
-    `java-gradle-plugin`
     `kotlin-dsl`
     `maven-publish`
     id("org.gradle.signing")
     id("org.jetbrains.dokka") version "0.9.17"
 }
 
-repositories {
-    google()
-    jcenter()
-}
-
 dependencies {
-    compileOnly("com.android.tools.build:gradle:3.2.0")
-    implementation("com.google.apis:google-api-services-androidpublisher:v3-rev30-1.25.0")
+    compileOnly("com.android.tools.build:gradle:3.2.0") {
+        exclude(group = "org.jetbrains.kotlin")
+    }
+    implementation("com.google.apis:google-api-services-androidpublisher:v3-rev41-1.25.0")
 
     testImplementation("junit:junit:4.12")
     testImplementation("com.google.truth:truth:0.40")
-    testImplementation("com.android.tools.build:gradle:3.1.3")
+    testImplementation("com.android.tools.build:gradle:3.1.3") {
+        exclude(group = "org.jetbrains.kotlin")
+    }
 }
 
 gradlePlugin {
@@ -31,7 +29,7 @@ gradlePlugin {
 }
 
 group = "de.halfbit"
-version = "2.3.0"
+version = "3.0.0-alpha1"
 
 publishing {
 
@@ -111,8 +109,8 @@ fun Project.getPropertyOrEmptyString(name: String): String =
 tasks.withType<Test> {
     addTestListener(object : TestListener {
         override fun beforeSuite(suite: TestDescriptor) {}
-        override fun beforeTest(testDescriptor: TestDescriptor) {}
         override fun afterSuite(suite: TestDescriptor, result: TestResult) {}
+        override fun beforeTest(testDescriptor: TestDescriptor) {}
         override fun afterTest(testDescriptor: TestDescriptor, result: TestResult) {
             if (result.resultType == TestResult.ResultType.FAILURE) {
                 result.exception?.printStackTrace()

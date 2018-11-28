@@ -43,20 +43,20 @@ internal class PlayPublisherPlugin : Plugin<Project> {
         androidAppExtension.applicationVariants.whenObjectAdded {
             if (buildType.isDebuggable) return@whenObjectAdded
 
-            val applicationVariant = this@whenObjectAdded
-            val variantName = name.capitalize()
+            val appVariant = this
+            val variantName = appVariant.name.capitalize()
 
             when (extension.artifactType) {
                 ArtifactType.Apk.name -> {
                     project.tasks {
-                        register("publishApk$variantName", PublishTask::class) {
+                        register<PublishTask>("publishApk$variantName") {
                             description = "Publish $variantName apk, mapping and release-notes to Google Play."
                             group = TASK_GROUP
 
-                            applicationId = applicationVariant.applicationId
+                            applicationId = appVariant.applicationId
                             artifactType = ArtifactType.Apk
-                            artifacts = collectArtifacts(ArtifactType.Apk, project)
-                            obfuscationMappingFile = getObfuscationMappingFile()
+                            artifacts = appVariant.collectArtifacts(ArtifactType.Apk, project)
+                            obfuscationMappingFile = appVariant.getObfuscationMappingFile()
                             releaseTrack = extension.getReleaseTrack()
                             releaseStatus = extension.getReleaseStatus()
                             releaseNotes = extension.getReleaseNotes(project.projectDir)
@@ -67,13 +67,13 @@ internal class PlayPublisherPlugin : Plugin<Project> {
 
                 ArtifactType.Bundle.name -> {
                     project.tasks {
-                        register("publishBundle$variantName", PublishTask::class) {
+                        register<PublishTask>("publishBundle$variantName") {
                             description = "Publish $variantName bundle and release-notes to Google Play."
                             group = TASK_GROUP
 
-                            applicationId = applicationVariant.applicationId
+                            applicationId = appVariant.applicationId
                             artifactType = ArtifactType.Bundle
-                            artifacts = collectArtifacts(ArtifactType.Bundle, project)
+                            artifacts = appVariant.collectArtifacts(ArtifactType.Bundle, project)
                             releaseTrack = extension.getReleaseTrack()
                             releaseStatus = extension.getReleaseStatus()
                             releaseNotes = extension.getReleaseNotes(project.projectDir)
