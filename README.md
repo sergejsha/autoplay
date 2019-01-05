@@ -31,7 +31,7 @@ In the main `build.gradle`
 buildscript {
   repositories {
     google()
-    jcenter()  
+    mavenCentral()
   }
   dependencies {
     classpath "de.halfbit:autoplay:<version>"
