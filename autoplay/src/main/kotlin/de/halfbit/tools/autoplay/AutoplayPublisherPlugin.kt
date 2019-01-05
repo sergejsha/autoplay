@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Sergej Shafarenka, www.halfbit.de
+ * Copyright (C) 2018-2019 Sergej Shafarenka, www.halfbit.de
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -115,11 +115,11 @@ internal class PlayPublisherPlugin : Plugin<Project> {
 
         private fun AutoplayPublisherExtension.getReleaseTrack(): ReleaseTrack {
             return when (track) {
-                null -> error("$EXTENSION_NAME { track } property is required.")
+                UNINITIALIZED -> error("$EXTENSION_NAME { track } property is required.")
                 ReleaseTrack.Internal.name -> ReleaseTrack.Internal
                 ReleaseTrack.Alpha.name -> ReleaseTrack.Alpha
                 ReleaseTrack.Beta.name -> ReleaseTrack.Beta
-                TRACK_ROLLOUT -> ReleaseTrack.Rollout(userFraction ?: 1.0)
+                TRACK_ROLLOUT -> ReleaseTrack.Rollout(userFraction)
                 ReleaseTrack.Production.name -> ReleaseTrack.Production
                 else -> error("Unsupported track: $track")
             }
@@ -127,7 +127,6 @@ internal class PlayPublisherPlugin : Plugin<Project> {
 
         private fun AutoplayPublisherExtension.getReleaseStatus(): ReleaseStatus {
             return when (status) {
-                null -> error("$EXTENSION_NAME { status } property is required.")
                 ReleaseStatus.Completed.name -> ReleaseStatus.Completed
                 ReleaseStatus.Draft.name -> ReleaseStatus.Draft
                 ReleaseStatus.Halted.name -> ReleaseStatus.Halted
@@ -137,8 +136,7 @@ internal class PlayPublisherPlugin : Plugin<Project> {
         }
 
         private fun AutoplayPublisherExtension.getReleaseNotes(rootDir: File): List<ReleaseNotes> {
-            val releaseNotePath = this.releaseNotesPath ?: error("$EXTENSION_NAME { releaseNotesPath } is required.")
-            val trackDirectory = File(rootDir, "$releaseNotePath/$track")
+            val trackDirectory = File(rootDir, "$releaseNotesPath/$track")
             return if (trackDirectory.exists()) {
                 trackDirectory.listFiles()
                     .filter { it.isFile }

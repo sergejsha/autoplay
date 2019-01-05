@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Sergej Shafarenka, www.halfbit.de
+ * Copyright (C) 2018-2019 Sergej Shafarenka, www.halfbit.de
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,16 @@ import de.halfbit.tools.autoplay.publisher.ArtifactType
 import de.halfbit.tools.autoplay.publisher.ReleaseStatus
 
 internal const val RELEASE_NOTES_PATH = "src/main/autoplay/release-notes"
+internal const val UNINITIALIZED = ""
 
-internal open class AutoplayPublisherExtension {
-    var track: String? = null
-    var userFraction: Double? = null
-    var status: String? = ReleaseStatus.Completed.name
+open class AutoplayPublisherExtension {
+
+    var track: String = UNINITIALIZED
+    var userFraction: Double = 1.0
+    var status: String = ReleaseStatus.Completed.name
     var secretJsonBase64: String? = null
     var secretJsonPath: String? = null
-    var releaseNotesPath: String? = RELEASE_NOTES_PATH
+    var releaseNotesPath: String = RELEASE_NOTES_PATH
     var artifactType = ArtifactType.Apk.name
+
 }
