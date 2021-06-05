@@ -20,7 +20,12 @@ import com.android.build.gradle.AppExtension
 import com.android.build.gradle.api.ApkVariantOutput
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.builder.model.Version
-import de.halfbit.tools.autoplay.publisher.*
+import de.halfbit.tools.autoplay.publisher.ArtifactType
+import de.halfbit.tools.autoplay.publisher.Credentials
+import de.halfbit.tools.autoplay.publisher.ReleaseNotes
+import de.halfbit.tools.autoplay.publisher.ReleaseStatus
+import de.halfbit.tools.autoplay.publisher.ReleaseTrack
+import de.halfbit.tools.autoplay.publisher.TRACK_ROLLOUT
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.invoke
@@ -50,7 +55,8 @@ internal class PlayPublisherPlugin : Plugin<Project> {
                 ArtifactType.Apk.name -> {
                     project.tasks {
                         register<PublishTask>("publishApk$variantName") {
-                            description = "Publish $variantName apk, mapping and release-notes to Google Play."
+                            description =
+                                "Publish $variantName apk, mapping and release-notes to Google Play."
                             group = TASK_GROUP
 
                             applicationId = appVariant.applicationId
@@ -68,7 +74,8 @@ internal class PlayPublisherPlugin : Plugin<Project> {
                 ArtifactType.Bundle.name -> {
                     project.tasks {
                         register<PublishTask>("publishBundle$variantName") {
-                            description = "Publish $variantName bundle and release-notes to Google Play."
+                            description =
+                                "Publish $variantName bundle and release-notes to Google Play."
                             group = TASK_GROUP
 
                             applicationId = appVariant.applicationId
@@ -137,21 +144,19 @@ internal class PlayPublisherPlugin : Plugin<Project> {
 
         private fun AutoplayPublisherExtension.getReleaseNotes(rootDir: File): List<ReleaseNotes> {
             val trackDirectory = File(rootDir, "$releaseNotesPath/$track")
-            return if (trackDirectory.exists()) {
-                trackDirectory.listFiles()
-                    .filter { it.isFile }
-                    .mapNotNull { localizedFile ->
-                        if (localizedFile.exists()) localizedFile else null
-                    }
-                    .map { releaseNoteFile ->
-                        ReleaseNotes(
-                            releaseNoteFile.getLocale(),
-                            releaseNoteFile
-                        )
-                    }
-            } else {
-                emptyList()
-            }
+            if (!trackDirectory.exists()) return emptyList()
+            val directoryFiles = trackDirectory.listFiles() ?: return emptyList()
+            return directoryFiles
+                .filter { it.isFile }
+                .mapNotNull { localizedFile ->
+                    if (localizedFile.exists()) localizedFile else null
+                }
+                .map { releaseNoteFile ->
+                    ReleaseNotes(
+                        releaseNoteFile.getLocale(),
+                        releaseNoteFile
+                    )
+                }
         }
 
         private fun AutoplayPublisherExtension.getCredentials(): Credentials {
@@ -167,8 +172,10 @@ internal class PlayPublisherPlugin : Plugin<Project> {
             val current = Version.ANDROID_GRADLE_PLUGIN_VERSION
             val expected = MINIMAL_ANDROID_PLUGIN_VERSION
             if (current < expected) {
-                error("Plugin '$PLUGIN_ID' requires 'com.android.application' plugin version $expected or higher," +
-                    " while yours is $current. Update android gradle plugin and try again.")
+                error(
+                    "Plugin '$PLUGIN_ID' requires 'com.android.application' plugin version $expected or higher," +
+                        " while yours is $current. Update android gradle plugin and try again."
+                )
             }
             return project.extensions.findByType(AppExtension::class.java)
                 ?: error("Required 'com.android.application' plugin must be added prior '$PLUGIN_ID' plugin.")
@@ -176,8 +183,10 @@ internal class PlayPublisherPlugin : Plugin<Project> {
 
         private fun File.getLocale(): String {
             if (name.length < 5 || name.substring(2, 3) != "-") {
-                error("Release notes must be named using the following format:" +
-                    " <language>-<COUNTRY>.txt, e.g. en-US.txt. Found name: $this")
+                error(
+                    "Release notes must be named using the following format:" +
+                        " <language>-<COUNTRY>.txt, e.g. en-US.txt. Found name: $this"
+                )
             }
             return name.substring(0, 5)
         }
