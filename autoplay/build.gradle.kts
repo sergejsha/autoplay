@@ -7,14 +7,14 @@ plugins {
 }
 
 dependencies {
-    compileOnly("com.android.tools.build:gradle:3.2.0") {
+    compileOnly("com.android.tools.build:gradle:4.1.3") {
         exclude(group = "org.jetbrains.kotlin")
     }
     implementation("com.google.apis:google-api-services-androidpublisher:v3-rev142-1.25.0")
 
     testImplementation("junit:junit:4.12")
     testImplementation("com.google.truth:truth:0.40")
-    testImplementation("com.android.tools.build:gradle:3.1.3") {
+    testImplementation("com.android.tools.build:gradle:4.1.3") {
         exclude(group = "org.jetbrains.kotlin")
     }
 }
