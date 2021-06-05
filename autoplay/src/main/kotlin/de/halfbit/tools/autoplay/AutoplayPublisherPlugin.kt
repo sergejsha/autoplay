@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Sergej Shafarenka, www.halfbit.de
+ * Copyright (C) 2018-2021 Sergej Shafarenka, www.halfbit.de
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,10 @@
 
 package de.halfbit.tools.autoplay
 
+import com.android.Version
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.api.ApkVariantOutput
 import com.android.build.gradle.api.ApplicationVariant
-import com.android.builder.model.Version
 import de.halfbit.tools.autoplay.publisher.ArtifactType
 import de.halfbit.tools.autoplay.publisher.Credentials
 import de.halfbit.tools.autoplay.publisher.ReleaseNotes
