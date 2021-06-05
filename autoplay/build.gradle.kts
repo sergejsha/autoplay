@@ -3,13 +3,14 @@ plugins {
     `maven-publish`
     id("org.gradle.signing")
     id("org.jetbrains.dokka") version "0.9.17"
+    kotlin("jvm").version(embeddedKotlinVersion).apply(false)
 }
 
 dependencies {
     compileOnly("com.android.tools.build:gradle:3.2.0") {
         exclude(group = "org.jetbrains.kotlin")
     }
-    implementation("com.google.apis:google-api-services-androidpublisher:v3-rev41-1.25.0")
+    implementation("com.google.apis:google-api-services-androidpublisher:v3-rev142-1.25.0")
 
     testImplementation("junit:junit:4.12")
     testImplementation("com.google.truth:truth:0.40")
