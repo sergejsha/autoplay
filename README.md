@@ -48,7 +48,7 @@ Autoplay Version | Gradle Version | AGP Version
 | 1.3.x | 4.8.x |  |
 | 2.3.x | 4.10.x |  |
 | 3.0.x | 5.x, 6.x, 7.x | 3.x |
-| 4.0.x | 6.x | 4.1.x |
+| 4.0.x | 6.x | 4.0.x, 4.1.x |
 
 ## Publishing apk
 
