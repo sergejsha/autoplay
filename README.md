@@ -3,6 +3,8 @@
 [![Gradle](https://img.shields.io/badge/gradle-5.0-blue.svg)](https://gradle.org/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
+Archived in favor of https://github.com/Triple-T/gradle-play-publisher
+
 <img src="https://github.com/beworker/autoplay/blob/master/publishing/autoplay-logo.png" alt="autoplay" width=200 />
 
 # Autoplay
